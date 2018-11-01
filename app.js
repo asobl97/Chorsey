@@ -13,8 +13,8 @@ var usersRouter = require('./server/routes/UsersRouter.js');
 var app = express();
 
 //var db = require('./db/db.js');
-var dbSchema = require('./db/schema.js');
-dbSchema.updateSchema();
+//var dbSchema = require('./db/schema.js');
+//dbSchema.updateSchema();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

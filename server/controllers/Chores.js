@@ -40,6 +40,8 @@ module.exports = {
     createChore: function(req, res, next) {
         var chore;
 
+        //TBD
+
         choresDao.insertChore(chore, function(response) {
             res.send(response);
         });
@@ -50,6 +52,8 @@ module.exports = {
             if (chore == null) {
                 throw new Error("Found no chore with ID: " + req.params.choreId)
             }
+
+            //TBD
 
             choresDao.updateChore(chore, function(response) {
                 res.send(response);
