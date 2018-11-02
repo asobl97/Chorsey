@@ -2,8 +2,8 @@ var mysql = require('mysql');
 
 var db = mysql.createConnection({
     host: "localhost",
-    user: "root", //replace with the MySQL user on your machine
-    password: "havalo", //replace with the MySQL password on your machine
+    user: "chorsey", //replace with the MySQL user on your machine
+    password: "1234", //replace with the MySQL password on your machine
     database: "chorsey"
 });
 
