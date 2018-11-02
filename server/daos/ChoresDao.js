@@ -80,9 +80,9 @@ module.exports = {
     getChoresByCompleted: function(completed, response) {
         var query =
             "SELECT T1.*" +
-            "FROM chores AS T1 " +
-            "AND T1.completed = ? " +
-            "ORDER BY T1.dueDate DESC;";
+                "FROM chores AS T1 " +
+                "AND T1.completed = ? " +
+                "ORDER BY T1.dueDate DESC;";
 
         db.query(query, completed, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
