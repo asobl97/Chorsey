@@ -5,7 +5,7 @@ module.exports = {
     getAllUsers: function(response) {
         var query =
             "SELECT T1.* " +
-            "FROM users AS T1;";
+                "FROM users AS T1;";
 
         db.query(query, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
@@ -15,33 +15,36 @@ module.exports = {
     getUserById: function(userId, response) {
         var query =
             "SELECT T1.* " +
-            "FROM users AS T1 " +
-            "WHERE T1.userId = ?;";
+                "FROM users AS T1 " +
+                "WHERE T1.userId = ?;";
 
         db.query(query, userId, function (err, result) {
-            dbUtil.handleQueryResult(err, result, response);
+            dbUtil.handleQueryResult(err, result[0], response);
         });
     },
 
     getUsersByHouseId: function(houseId, response) {
+
         var query =
             "SELECT T1.* " +
-            "FROM users AS T1 " +
-            "WHERE T1.houseId = ?;";
+                "FROM users AS T1 " +
+                "WHERE T1.houseId = ?;";
 
         db.query(query, houseId, function (err, result) {
+
             dbUtil.handleQueryResult(err, result, response);
         });
     },
 
     insertUser: function(user, response) {
         var query =
-            "INSERT INTO users (userId, name, houseId) " +
-            "VALUES (?, ?, ?);";
+            "INSERT INTO users (userId, name, email, houseId) " +
+                "VALUES (?, ?, ?, ?);";
 
         var params = [
             user.userId,
             user.name,
+            user.email,
             user.houseId
         ];
 
@@ -53,13 +56,15 @@ module.exports = {
     updateUser: function(user, response) {
         var query =
             "UPDATE users " +
-            "SET userId = ?, name = ?, houseId = ? " +
-            "WHERE userId = ?;";
+                "SET userId = ?, name = ?, email = ?, houseId = ? " +
+                "WHERE userId = ?;";
 
         var params = [
             user.userId,
             user.name,
-            user.houseId
+            user.email,
+            user.houseId,
+            user.userId
         ];
 
         db.query(query, params, function (err, result) {
@@ -70,7 +75,9 @@ module.exports = {
     deleteUser: function(user, response) {
         var query =
             "DELETE FROM users " +
-            "WHERE T1.userID = ?;";
+                "WHERE userId = ?;";
+
+        console.log("userId: " + user.userId);
 
         db.query(query, user.userId, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);

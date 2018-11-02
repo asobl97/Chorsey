@@ -3,7 +3,7 @@ var router = express.Router();
 
 var usersController = require('../controllers/Users.js');
 
-router.get('/', function(req, res, next) { usersController.getAllUsers(req, res, next); });
+router.get('/', function(req, res, next) { usersController.getUsers(req, res, next); });
 router.get('/:userId', function(req, res, next) { usersController.getUserById(req, res, next); });
 
 router.post('/', function(req, res, next) { usersController.createUser(req, res, next); });

@@ -5,8 +5,8 @@ module.exports = {
     getAllHouses: function(response) {
         var query =
             "SELECT T1.* " +        //what is T1?
-            "FROM houses AS T1 " +
-            "ORDER BY T1.houseId DESC;";
+                "FROM houses AS T1 " +
+                "ORDER BY T1.houseId DESC;";
 
         db.query(query, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
@@ -16,18 +16,18 @@ module.exports = {
     getHouseById: function(houseId, response) {
         var query =
             "SELECT T1.* " +
-            "FROM houses AS T1 " +
-            "WHERE T1.houseId = ?;";
+                "FROM houses AS T1 " +
+                "WHERE T1.houseId = ?;";
 
         db.query(query, houseId, function (err, result) {
-            dbUtil.handleQueryResult(err, result, response);
+            dbUtil.handleQueryResult(err, result[0], response);
         });
     },
 
     insertHouse: function(house, response) {
         var query =
             "INSERT INTO houses (houseId, name, userCount) " +
-            "VALUES (?, ?, ?);";
+                "VALUES (?, ?, ?);";
 
         var params = [
             house.houseId,
@@ -43,13 +43,14 @@ module.exports = {
     updateHouse: function(house, response) {
         var query =
             "UPDATE houses " +
-            "SET houseId = ?, name = ?, userCount = ? " +
-            "WHERE houseId = ?;";
+                "SET houseId = ?, name = ?, userCount = ? " +
+                "WHERE houseId = ?;";
 
         var params = [
             house.houseId,
             house.name,
-            house.userCount
+            house.userCount,
+            house.houseId
         ];
 
         db.query(query, params, function (err, result) {
@@ -60,7 +61,7 @@ module.exports = {
     deleteHouse: function(house, response) {
         var query =
             "DELETE FROM houses " +
-            "WHERE T1.houseID = ?;";
+                "WHERE houseId = ?;";
 
         db.query(query, house.houseId, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
