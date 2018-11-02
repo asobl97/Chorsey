@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './App.js';
 import './stylesheets/style.css'
 
-const title = 'Choresy';
 
 ReactDOM.render(
-  <div>{title}</div>,
+  <App />,
   document.getElementById('app')
 );
 
