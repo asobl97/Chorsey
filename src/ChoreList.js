@@ -20,11 +20,11 @@ class ChoreList extends React.Component {
 
 	render() {
 		return (
-			<section>
+			<section className="choreSection">
 				<div>
 					<AddChore />
 				</div>
-				<div className="ChoreList">
+				<div className="choreList">
 					<ul>
 						{this.renderChore()}
 						{this.renderChore()}
