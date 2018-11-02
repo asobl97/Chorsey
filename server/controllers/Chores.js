@@ -24,18 +24,6 @@ module.exports = {
         });
     },
 
-    getChoresByUserId: function(req, res, next) {
-        choresDao.getChoresByUserId(req.params.userId, function(response) {
-            res.send(response);
-        });
-    },
-
-    getChoresByHouseId: function(req, res, next) {
-        choresDao.getChoresByHouseId(req.params.houseId, function(response) {
-            res.send(response);
-        });
-    },
-
     createChore: function(req, res, next) {
         var chore = {};
         chore.choreId = req.body.choreId;

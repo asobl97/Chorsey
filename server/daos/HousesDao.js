@@ -24,24 +24,45 @@ module.exports = {
         });
     },
 
-    getHouseByName: function(name, response) {
+    insertHouse: function(house, response) {
         var query =
-            "SELECT T1.* " +
-            "FROM houses AS T1 " +
-            "WHERE T1.name = ?;";
+            "INSERT INTO houses (houseId, name, userCount) " +
+            "VALUES (?, ?, ?);";
 
-        db.query(query, name, function (err, result) {
+        var params = [
+            house.houseId,
+            house.name,
+            house.userCount
+        ];
+
+        db.query(query, params, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
         });
     },
 
-    getHouseByUserCount: function(userCount, response) {
+    updateHouse: function(house, response) {
         var query =
-            "SELECT T1.* " +
-            "FROM houses AS T1 " +
-            "WHERE T1.userCount = ?;";
+            "UPDATE houses " +
+            "SET houseId = ?, name = ?, userCount = ? " +
+            "WHERE houseId = ?;";
 
-        db.query(query, userCount, function (err, result) {
+        var params = [
+            house.houseId,
+            house.name,
+            house.userCount
+        ];
+
+        db.query(query, params, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
+    deleteHouse: function(house, response) {
+        var query =
+            "DELETE FROM houses " +
+            "WHERE T1.houseID = ?;";
+
+        db.query(query, house.houseId, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
         });
     }

@@ -4,9 +4,8 @@ var dbUtil = require('../utils/DbUtil.js');
 module.exports = {
     getAllUsers: function(response) {
         var query =
-            "SELECT T1.* " +        //what is T1?
-            "FROM users AS T1 " +
-            "ORDER BY T1.userId DESC;";
+            "SELECT T1.* " +
+            "FROM users AS T1;";
 
         db.query(query, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
@@ -24,24 +23,56 @@ module.exports = {
         });
     },
 
-    getUserByName: function(name, response) {
-            var query =
-                "SELECT T1.* " +
-                "FROM users AS T1 " +
-                "WHERE T1.name = ?;";
-
-            db.query(query, name, function (err, result) {
-                    dbUtil.handleQueryResult(err, result, response);
-            });
-    },
-
-    getUserByHouseId: function(req, res, next) {
+    getUsersByHouseId: function(houseId, response) {
         var query =
             "SELECT T1.* " +
             "FROM users AS T1 " +
             "WHERE T1.houseId = ?;";
 
         db.query(query, houseId, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
+    insertUser: function(user, response) {
+        var query =
+            "INSERT INTO users (userId, name, houseId) " +
+            "VALUES (?, ?, ?);";
+
+        var params = [
+            user.userId,
+            user.name,
+            user.houseId
+        ];
+
+        db.query(query, params, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
+    updateUser: function(user, response) {
+        var query =
+            "UPDATE users " +
+            "SET userId = ?, name = ?, houseId = ? " +
+            "WHERE userId = ?;";
+
+        var params = [
+            user.userId,
+            user.name,
+            user.houseId
+        ];
+
+        db.query(query, params, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
+    deleteUser: function(user, response) {
+        var query =
+            "DELETE FROM users " +
+            "WHERE T1.userID = ?;";
+
+        db.query(query, user.userId, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
         });
     }
