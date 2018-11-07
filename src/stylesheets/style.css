@@ -1,7 +1,16 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body {}
+
+li {
+	word-break: break-all;
+	padding: 15px 15px 15px 60px;
+	display: block;
+	line-height: 1.2;
 }
 
 a {
-  color: #00B7FF;
+  	color: #00B7FF;
+}
+
+.mainHeader {
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
