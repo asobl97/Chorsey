@@ -3,9 +3,9 @@ import React from 'react';
 class Header extends React.Component {
 	render() {
 		return (
-			<header className="mainHeader">
+			<nav className="mainNav">
 				<h2>Choresy</h2>
-			</header>
+			</nav>
 		);
 	}
 }

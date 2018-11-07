@@ -4,7 +4,8 @@ import AddChore from './AddChore.js';
 function Chore(props) {
   return (
   	<li onClick={props.onClick}>
-  		Placeholder Chore
+  		<input type="checkbox" />
+  		<span>Placeholder Chore</span>
   	</li>
   );
 }

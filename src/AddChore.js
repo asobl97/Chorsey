@@ -5,7 +5,6 @@ class AddChore extends React.Component {
 		return (
 			<form className="addChore">
 				<input type="text" id="addChoreTextBox" placeholder="Add a chore" />
-				<input type="submit" value="Add" />
   			</form>
 		);
 	}
