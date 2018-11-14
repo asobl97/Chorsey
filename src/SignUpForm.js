@@ -15,11 +15,11 @@ class SignUpForm extends React.Component {
                 <div className="tagline1">Sign up</div>
                 <input type="text" id="signUpNameBox" name="name" placeholder="Name" onChange={this.handleInputChange} value={this.state.name} />
                 <br />
-                <input type="text" id="signUpEmailBox" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} />
+                <input type="mail" id="signUpEmailBox" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} />
                 <br />
-                <input type="text" id="signUpEmailBox" name="email" placeholder="Verify Email" />
+                <input type="mail" id="signUpEmailVer" name="verify email" placeholder="Verify Email" />
                 <br />
-                <input type="text" id="signUpPasswordBox" name="password" placeholder="Password" onChange={this.handleInputChange} value={this.state.password} />
+                <input type="password" id="signUpPasswordBox" name="password" placeholder="Password" onChange={this.handleInputChange} value={this.state.password} />
                 <br />
                 <input type="submit" className="btn1" value="Sign Up" />
 			 </form> 

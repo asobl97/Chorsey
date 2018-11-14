@@ -1,4 +1,6 @@
 import React from 'react';
+import './stylesheets/logInForm.css';
+import './stylesheets/header.css';
 
 class LogInForm extends React.Component {
     constructor(props) {
@@ -10,28 +12,23 @@ class LogInForm extends React.Component {
 
 	render() {
 		return (
-            <div>
-               <h3>Log In</h3>
-			    <form className="logInForm" onSubmit={this.handleSubmit}>
-                    <div>
-                        <label htmlFor="email">
-                            Email
-                        </label>
-                        <input type="text" id="logInEmailTextBox" name="email" placeholder="Email" onChange={this.handleInputChange}
-                        value={this.state.email} />
-                    </div>
-                    <div>
-                        <label htmlFor="password">
-                            Password
-                        </label>
-                        <input type="text" id="logInPasswordTextBox" name="password" placeholder="Password" onChange={this.handleInputChange}
-                        value={this.state.password} />
-                    </div>
-                    <input type="submit" value="Log In" />
-  			    </form> 
-            </div>
+            <form className="logInForm" onSubmit={this.handleSubmit}>
+                <input type="submit" className="submit1" value="login" />
+                <div id="form2">Password<br />
+                    <input placeholder="Password" type="password" name="password" 
+                        onChange={this.handleInputChange} value={this.state.password} /><br />
+                    <a href='#'>Forgotten your password?</a>
+                </div>
+                <div id="form1">Email<br />
+                    <input placeholder="Email" type="mail" name="email" 
+                        onChange={this.handleInputChange} value={this.state.email} /><br />
+                    <input type="checkbox" /> keep me logged in
+                </div> 
+            </form>
 		);
     }
+
+
     
     handleInputChange(event) {
         const target = event.target;

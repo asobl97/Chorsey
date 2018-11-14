@@ -1,11 +1,12 @@
 /* --- General Setup --- */
 
 :root {
-	--nav-padding: 11px;
+	--header-height: 90px;
   --nav-logo-height: 38px;
 	--main-red: #C0392B;
   --sidebar-width: 300px;
   --padding-below-nav: 20px;
+  --sign-up-box-width: 408px;
 }
 
 /* CSS Reset */

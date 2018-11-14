@@ -1,11 +1,11 @@
 /* Sidebar */
 .sidebarSection {
-	min-height: calc(100vh - var(--nav-logo-height) - (2*var(--nav-padding)));
+	min-height: calc(100vh - var(--header-height));
 	width: var(--sidebar-width);
 	padding: var(--padding-below-nav);
 
 	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
-    top: calc(var(--nav-logo-height) + (2*var(--nav-padding)));
+    top: var(--header-height);
     left: 0;
 }

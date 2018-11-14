@@ -3,9 +3,9 @@
 /* Changes made here need to be reflected in the 
 min-height values of the other two sections */
 .mainNav {
-	padding: var(--nav-padding);
 	background-color: var(--main-red);
 	width: 100vw;
+	height:var(--header-height);
 
 	position: fixed; /* Fixed Nav (stay in place on scroll) */
     z-index: 2; /* Stay on top */
@@ -13,7 +13,10 @@ min-height values of the other two sections */
     left: 0;
 }
 
-.mainNav-logo {
+#mainNav-logo {
+	margin-top: calc((var(--header-height) - var(--nav-logo-height))/2);
+	margin-left: var(--header-height);
 	height: var(--nav-logo-height);
 	width: auto;
+	float: left;
 }

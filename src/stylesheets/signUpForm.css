@@ -15,7 +15,7 @@ body {
 	left: 100%;
 	-ms-transform: translate(-100%, -55%);
 	transform: translate(-100%, -55%);
-	padding: calc(var(--nav-logo-height) + (2*var(--nav-padding)));
+	padding: var(--header-height);
 	font-size:20px;
 }
 
@@ -33,9 +33,10 @@ body {
 }
 
 #signUpNameBox,
-#signUpEmailBox, 
+#signUpEmailBox,
+#signUpEmailVer, 
 #signUpPasswordBox {
-	width: 408px;
+	width: var(--sign-up-box-width);
 	height: 40px;
 	border-radius: 5px 5px 5px 5px;
 	background: white;
