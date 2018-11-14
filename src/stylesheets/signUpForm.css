@@ -1,3 +1,13 @@
+
+body {
+/* TODO: add <a target="_blank" href="https://www.Vecteezy.com/">Vector Art by Vecteezy</a> in for attribution */
+   background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(img/spring_cleaning.png);
+   background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(img/spring_cleaning.png);
+   background-repeat: no-repeat;
+   background-position: left bottom;
+   background-size: cover, 70%;
+}
+
 .signUpForm {
 	margin: 0;
 	position: absolute;
