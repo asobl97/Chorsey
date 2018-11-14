@@ -1,0 +1,7 @@
+# Ignore db.js to allow different usernames and passwords
+
+db/db.js
+
+
+# Ignore .DS_Store
+.DS_Store
