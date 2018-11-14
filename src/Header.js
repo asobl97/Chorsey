@@ -4,7 +4,7 @@ class Header extends React.Component {
 	render() {
 		return (
 			<nav className="mainNav">
-				<h2>Choresy</h2>
+				<img className="mainNav-logo" alt="Choresy Logo" src="choresy_logo_white.svg" />
 			</nav>
 		);
 	}

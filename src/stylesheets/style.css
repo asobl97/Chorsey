@@ -4,7 +4,8 @@
 /* CSS Reset */
 
 :root {
-	--main-padding: 20px;
+	--nav-padding: 11px;
+	--main-red: #C0392B;
 }
 
 * {
@@ -25,7 +26,17 @@ body {
     font-size: 18px;
     font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;;
     text-rendering: optimizeLegibility;
-    overflow: hidden;
+}
+
+/* The next two items prevent 'overscrolling' */
+html {
+	overflow: hidden;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
 }
 
 a {
@@ -43,31 +54,40 @@ ul {
 /* Changes made here need to be reflected in the 
 min-height values of the other two sections */
 .mainNav {
-	padding: var(--main-padding);
-	background-color: #D2D2D2;
+	padding: var(--nav-padding);
+	background-color: var(--main-red);
+	width: 100vw;
+
+	position: fixed; /* Fixed Nav (stay in place on scroll) */
+    z-index: 2; /* Stay on top */
+    top: 0; 
+    left: 0;
 }
 
-.mainNav h2 {
-	font-size: 24px;
-	color: red;
-	text-shadow: 1px 0px #FFF;
+.mainNav-logo {
+	height: 38px;
+	width: auto;
 }
 
 /* Sidebar */
 .sidebarSection {
-	min-height: calc(100vh - 24px - (2*var(--main-padding)));
+	min-height: calc(100vh - 38px - (2*var(--nav-padding)));
 	width: 300px;
-	float: left;
-	padding: var(--main-padding);
+	padding: 20px;
+
+	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: calc(38px + (2*var(--nav-padding)));
+    left: 0;
 }
 
 /* Chore List */
 .choreSection {
-	min-height: calc(100vh - 24px - (2*var(--main-padding)));
+	margin-top: calc(38px + (2*var(--nav-padding)));
+	min-height: calc(100vh - 38px - (2*var(--nav-padding)));
 	width: calc(100vw - 300px);
-	float: left;
-	padding: var(--main-padding);
-	overflow-y: auto;
+	margin-left: 300px;
+	padding: 20px;
 	background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(img/scu_background.jpg);
     background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(img/scu_background.jpg);
 	background-size: cover;
@@ -137,7 +157,7 @@ min-height values of the other two sections */
 	position: absolute;
 	top: -1px;
 	left: 2px;
-	color: red;
+	color: var(--main-red);
 }
 
 .choreSection ul li input:checked + span {
