@@ -1,0 +1,19 @@
+/* Top Nav */
+
+/* Changes made here need to be reflected in the 
+min-height values of the other two sections */
+.mainNav {
+	padding: var(--nav-padding);
+	background-color: var(--main-red);
+	width: 100vw;
+
+	position: fixed; /* Fixed Nav (stay in place on scroll) */
+    z-index: 2; /* Stay on top */
+    top: 0; 
+    left: 0;
+}
+
+.mainNav-logo {
+	height: var(--nav-logo-height);
+	width: auto;
+}

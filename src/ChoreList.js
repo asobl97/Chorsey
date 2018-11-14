@@ -1,5 +1,6 @@
 import React from 'react';
 import AddChore from './AddChore.js';
+import './stylesheets/choreList.css';
 
 function Chore(props) {
   return (

@@ -1,0 +1,57 @@
+.signUpForm {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	-ms-transform: translate(-100%, -55%);
+	transform: translate(-100%, -55%);
+	padding: calc(var(--nav-logo-height) + (2*var(--nav-padding)));
+	font-size:20px;
+}
+
+.tagline1 {
+	font-size: 30px;
+	color: #000;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.tagline2 {
+	font-size: 18px;
+	color: #000;
+	height: 50px;
+}
+
+#signUpNameBox,
+#signUpEmailBox, 
+#signUpPasswordBox {
+	width: 408px;
+	height: 40px;
+	border-radius: 5px 5px 5px 5px;
+	background: white;
+	padding: 10px;
+	font-size: 18px;
+	margin-top: 8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: gray;
+}
+
+.btn1{
+	width: 250px;
+	height: 40px;
+	left: 750px;
+	top: 625px;
+	background: var(--main-red);
+	font-family:'Lucida Grande';
+	font-size: 18px;
+	color: white;
+	border-radius: 5px 5px 5px 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: gray;
+	margin-top: 15px;
+	cursor: pointer;
+	outline: none;
+	
+}
