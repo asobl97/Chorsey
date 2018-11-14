@@ -1,6 +1,16 @@
 # Chorsey
 
-### Webpack development server set up - npm start launches site at localhost:8080. Auto updates with changes.
+### 11/13 - .gitignore setup to ignore .DS_Store files and *db.js* - this is to allow users to have different usernames and passwords. Future changes to db.js will need to be pulled by force
+
+#### To get rid of the .DS_Stores in your own repositories, and remove db.js from being tracked (so we're all on the same page) enter the following in terminal:
+
+`find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch`
+
+and
+
+`git rm --cached db/db.js`
+
+Webpack development server set up - npm start launches site at localhost:8080. Auto updates with changes.
 
 Run these SQL commands before starting development:
 
