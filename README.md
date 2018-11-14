@@ -1,5 +1,7 @@
 # Chorsey
 
+###Webpack development server set up - npm start launches site at localhost:8080. Auto updates with changes.
+
 Run these SQL commands before starting development:
 
 CREATE DATABASE chorsey;
