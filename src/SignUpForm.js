@@ -1,5 +1,6 @@
 import React from 'react';
 import './stylesheets/signUpForm.css';
+//import { createSecureServer } from 'http2';
 
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -27,22 +28,44 @@ class SignUpForm extends React.Component {
     }
     
     handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        const inputFieldChanged = event.target;
+        updateState(inputFieldChanged);
+    }
 
+    updateState(inputFieldChanged){
         this.setState({
-            [name]: value
+            [inputFieldChanged.name]: inputFieldChanged.value
           });
     }
+
     
     handleSubmit(event) {
-        //event.preventDefault(); // not sure what this does, but its in react tutorial
-        
-        // check inputs are all good
-
-        // send ajax request to sign up
+        if(this.formIsFilled){
+            createUserAccount()
+        }else{
+            alertUserInvalidInput()
+        }
     }
+
+    formIsFilled() {
+        const formInputs = this.state;
+        Object.keys(formInputs).forEach(function(key) {
+            // all inputs must have a value, all inputs strings
+            if(typeof formInputs[key] == undefined || formInputs[key].length < 1){
+                return false;
+            }
+        })
+    }
+
+    createUserAccount(){
+        // send ajax request
+        // need more info on request flow
+    }
+
+    alertUserInvalidInput() {
+        alert("Invalid Input");
+    }
+
 }
 
 export default SignUpForm;
