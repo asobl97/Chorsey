@@ -5,9 +5,6 @@
 	width: calc(100vw - var(--sidebar-width));
 	margin-left: var(--sidebar-width);
 	padding: var(--padding-below-nav);
-	background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(img/scu_background.jpg);
-    background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(img/scu_background.jpg);
-	background-size: cover;
 }
 
 .addChore {

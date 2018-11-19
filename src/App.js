@@ -9,7 +9,8 @@ class App extends React.Component {
 		return (
 			<div id="app">
 				<Header />
-				<SignUpForm />
+				<Sidebar />
+				<ChoreList />
 			</div>
 		);
 	}

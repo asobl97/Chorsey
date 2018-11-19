@@ -15,7 +15,8 @@
     "mysql": "^2.16.0",
     "normalize.css": "^8.0.0",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "react-virtualized": "^9.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
