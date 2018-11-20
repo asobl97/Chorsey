@@ -1,4 +1,4 @@
-var db = require('../../db/db.js');
+var db = require('../db/db.js');
 
 var util = require('../utils/util.js');
 var dbUtil = require('../utils/DbUtil.js');

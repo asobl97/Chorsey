@@ -4,11 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./server/routes/IndexRouter.js');
-var authRouter = require('./server/routes/AuthRouter.js');
-var choresRouter = require('./server/routes/ChoresRouter.js');
-var housesRouter = require('./server/routes/HousesRouter.js');
-var usersRouter = require('./server/routes/UsersRouter.js');
+var indexRouter = require('./routes/IndexRouter.js');
+var authRouter = require('./routes/AuthRouter.js');
+var choresRouter = require('./routes/ChoresRouter.js');
+var housesRouter = require('./routes/HousesRouter.js');
+var usersRouter = require('./routes/UsersRouter.js');
 
 var app = express();
 

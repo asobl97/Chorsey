@@ -26,4 +26,4 @@ CREATE TABLE users (userId INT NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL,
 See db.js
 
 Run 'npm install' on the command line before working after receiving new code.
-Run project with 'npm start' on the command line.
+Run server with 'npm start' on the command line.

@@ -2,15 +2,19 @@ var housesDao = require('../daos/HousesDao.js');
 var util = require('../utils/util.js');
 
 module.exports = {
-    getAllHouses: function(req, res, next) {
+    getHouses: function(req, res, next) {
         housesDao.getAllHouses(function(response) {
-            res.send(response);
+            var responseObj = {};
+            responseObj.result = response;
+            res.send(responseObj);
         });
     },
 
     getHouseById: function(req, res, next) {
         housesDao.getHouseById(req.params.houseId, function(response) {
-            res.send(response);
+            var responseObj = {};
+            responseObj.result = response;
+            res.send(responseObj);
         });
     },
 
@@ -24,7 +28,9 @@ module.exports = {
             if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
                 res.sendStatus(500);
             } else {
-                res.sendStatus(200);
+                var responseObj = {};
+                responseObj.result = response;
+                res.send(responseObj);
             }
         });
     },
@@ -44,7 +50,9 @@ module.exports = {
                 if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
                     res.sendStatus(500);
                 } else {
-                    res.sendStatus(200);
+                    var responseObj = {};
+                    responseObj.result = response;
+                    res.send(responseObj);
                 }
             });
         });

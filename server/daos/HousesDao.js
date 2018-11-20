@@ -1,4 +1,4 @@
-var db = require('../../db/db.js');
+var db = require('../db/db.js');
 var dbUtil = require('../utils/DbUtil.js');
 
 module.exports = {
@@ -37,6 +37,34 @@ module.exports = {
 
         db.query(query, params, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
+    updateHouseUserCount: function(houseId, response) {
+        var query =
+            "SELECT COUNT(T1.userId) " +
+                "AS userCount " +
+                "FROM users AS T1 " +
+                "WHERE houseId = ?;";
+
+        db.query(query, houseId, function (err, result) {
+            dbUtil.handleQueryResult(err, result, function(countResult) {
+                var userCount = countResult[0].userCount;
+
+                query =
+                    "UPDATE houses " +
+                        "SET userCount = ? " +
+                        "WHERE houseId = ?;";
+
+                var params = [
+                    userCount,
+                    houseId
+                ];
+
+                db.query(query, params, function (err, result) {
+                    dbUtil.handleQueryResult(err, userCount, response);
+                });
+            });
         });
     },
 
