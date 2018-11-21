@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "contributors": [
+    "Kavi Sachania <kavi.sachania@gmail.com>"
+  ],
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
