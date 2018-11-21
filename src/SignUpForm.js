@@ -11,18 +11,25 @@ class SignUpForm extends React.Component {
 
 	render() {
 		return (
-		    <form className="signUpForm" onSubmit={this.handleSubmit}>
-                <div className="tagline1">Sign up</div>
-                <input type="text" id="signUpNameBox" name="name" placeholder="Name" onChange={this.handleInputChange} value={this.state.name} />
-                <br />
-                <input type="mail" id="signUpEmailBox" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} />
-                <br />
-                <input type="mail" id="signUpEmailVer" name="verify email" placeholder="Verify Email" />
-                <br />
-                <input type="password" id="signUpPasswordBox" name="password" placeholder="Password" onChange={this.handleInputChange} value={this.state.password} />
-                <br />
-                <input type="submit" className="btn1" value="Sign Up" />
-			 </form> 
+            <div>
+                <ul id="whySign">
+                    <li>Organize your life</li>
+                    <li>Collaborate with your housemates</li>
+                    <li>Teamwork makes the dreamwork</li>
+                </ul>
+    		    <form className="signUpForm" onSubmit={this.handleSubmit}>
+                    <div className="tagline1">Sign up</div>
+                    <input type="text" id="signUpNameBox" name="name" placeholder="Name" onChange={this.handleInputChange} value={this.state.name} />
+                    <br />
+                    <input type="mail" id="signUpEmailBox" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} />
+                    <br />
+                    <input type="mail" id="signUpEmailVer" name="verify email" placeholder="Verify Email" />
+                    <br />
+                    <input type="password" id="signUpPasswordBox" name="password" placeholder="Password" onChange={this.handleInputChange} value={this.state.password} />
+                    <br />
+                    <input type="submit" className="btn1" value="Sign Up" />
+    			 </form>
+             </div>
 		);
     }
     

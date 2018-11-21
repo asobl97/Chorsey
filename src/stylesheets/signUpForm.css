@@ -8,6 +8,24 @@ body {
    background-size: cover, 70%;
 }
 
+#whySign {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	height: 472px;
+	-ms-transform: translateY(-55%);
+	transform: translateY(-55%);
+	padding: var(--header-height);
+	font-weight: bold;
+	font-size:25px;
+	color: var(--main-red);
+}
+
+li {
+	padding-bottom: 20px;
+}
+
 .signUpForm {
 	margin: 0;
 	position: absolute;

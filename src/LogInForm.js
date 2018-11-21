@@ -1,6 +1,5 @@
 import React from 'react';
 import './stylesheets/logInForm.css';
-import './stylesheets/header.css';
 
 class LogInForm extends React.Component {
     constructor(props) {
