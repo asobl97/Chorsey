@@ -1,56 +1,98 @@
 var authDao = require('../daos/AuthDao.js');
 var userController = require('../controllers/Users.js');
-var firebase = require('firebase');
+var util = require('../utils/util');
 
 module.exports = {
-    signUp : function(req, res, next) {
+    getCurrentUser : function(req, res, next) {
+        authDao.getCurrentUser(function (response) {
+            if (util.isNotEmpty(response)) {
+                res.send(response);
+            } else {
+                res.sendStatus(204);
+            }
+        });
+    },
 
+    signUp : function(req, res, next) {
         var user = {};
-        user.email = req.email;
-        user.password = req.password;
+        user.email = req.body.email;
+        user.password = req.body.password;
 
         authDao.signUp(user, function(response) {
-            userController.createUser(req, res, next);
+            if (util.isNotEmpty(response)) {
+                req.body.userId = response.uid;
+                userController.createUser(req, res, next);
+            } else {
+                res.sendStatus(500);
+            }
         });
     },
 
     logIn : function(req, res, next) {
-        var user = {};
-        user.email = req.email;
-        user.password = req.password;
-
-        authDao.logIn(req.params.email, req.params.password, function (response) {
-            res.send(response);
+        authDao.logIn(req.body.email, req.body.password, function (response) {
+            if (util.isNotEmpty(response)) {
+                res.send(response);
+            } else {
+                res.sendStatus(401);
+            }
         });
     },
 
     logOut : function(req, res, next) {
         authDao.logOut(function (response) {
-            res.send(response);
+            if (util.isNotEmpty(response)) {
+                res.send(response);
+            } else {
+                res.sendStatus(500);
+            }
         });
     },
 
     editAccount : function(req, res, next) {
-        authDao.editAccount(req.params.email, req.params.password, function () {
-            userController.updateUser(req, res, next);
+        authDao.editAccount(req.body.email, req.body.password, function (response) {
+            if (util.isNotEmpty(response)) {
+                if (response != "Unauthorized") {
+                    res.send(response);
+                } else {
+                    res.sendStatus(401);
+                }
+            } else {
+                res.sendStatus(500);
+            }
         });
     },
 
     deleteAccount : function(req, res, next) {
-        authDao.deleteAccount(req.params.email, req.params.password, function (response) {
-            deleteUser(req, res, next);
+        authDao.deleteAccount(function (response) {
+            if (util.isNotEmpty(response)) {
+                if (response != "Unauthorized") {
+                    userController.deleteUser(req, res, next);
+                } else {
+                    res.sendStatus(401);
+                }
+            } else {
+                res.sendStatus(500);
+            }
         });
     },
 
     sendResetEmail : function(req, res, next) {
-        authDao.sendResetEmail(req.params.email, function (response) {
-            res.send(response);
+        authDao.sendResetEmail(req.body.email, function (response) {
+            if (util.isNotEmpty(response)) {
+                res.send(response);
+            } else {
+                res.sendStatus(500);
+            }
         });
     },
 
     resetPassword : function(req, res, next) {
         authDao.resetPassword(req.params.resetCode, req.params.newPassword, function (response) {
-            userController.updateUser(req, res, next);
+            if (util.isNotEmpty(response)) {
+                res.send(response);
+            } else {
+                res.sendStatus(500);
+            }
         });
     }
 };

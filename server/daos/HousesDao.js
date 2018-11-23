@@ -24,13 +24,31 @@ module.exports = {
         });
     },
 
+    getHousesByIds: function(houseIds, response) {
+        var query =
+            "SELECT T1.* " +
+                "FROM houses AS T1 " +
+                "WHERE T1.houseId IN (";
+
+        for (var i=0;i<houseIds.length;i++) {
+            query += "?";
+            if (i<houseIds.length-1) {
+                query += ", ";
+            }
+        }
+        query += ");";
+
+        db.query(query, houseIds, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
     insertHouse: function(house, response) {
         var query =
-            "INSERT INTO houses (houseId, name, userCount) " +
-                "VALUES (?, ?, ?);";
+            "INSERT INTO houses (name, userCount) " +
+                "VALUES (?, ?);";
 
         var params = [
-            house.houseId,
             house.name,
             house.userCount
         ];

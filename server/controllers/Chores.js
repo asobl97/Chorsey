@@ -4,19 +4,43 @@ var usersDao = require('../daos/UsersDao.js');
 
 var util = require('../utils/util.js');
 
+function getAllChoresRelatables(res, response) {
+    var responseObj = {};
+    responseObj.result = response;
+
+    responseObj.relatables = {};
+
+    var userIds = [];
+    var houseIds = [];
+    for (var choresi=0;choresi<response.length;choresi++) {
+        userIds[choresi] = response[choresi].userId;
+        houseIds[choresi] = response[choresi].houseId;
+    }
+
+    usersDao.getUsersByIds(userIds, function(users) {
+        for (var usersi=0;usersi<users.length;usersi++) {
+            responseObj.relatables[users[usersi].userId] = users[usersi];
+        }
+
+        housesDao.getHousesByIds(houseIds, function(houses) {
+            for (var housesi=0;housesi<houses.length;housesi++) {
+                responseObj.relatables[houses[housesi].houseId] = houses[housesi];
+            }
+
+            res.send(responseObj);
+        });
+    });
+}
+
 module.exports = {
     getChores: function(req, res, next) {
         if (util.isNotEmpty(req.query)) {
             choresDao.getChoresByFilter(req.query, function (response) {
-                var responseObj = {};
-                responseObj.result = response;
-                res.send(responseObj);
+                getAllChoresRelatables(res, response);
             });
         } else {
             choresDao.getAllChores(function (response) {
-                var responseObj = {};
-                responseObj.result = response;
-                res.send(responseObj);
+                getAllChoresRelatables(res, response);
             });
         }
     },
@@ -31,9 +55,19 @@ module.exports = {
 
                 responseObj.relatables = {};
                 housesDao.getHouseById(response.houseId, function(house) {
+                    if (house == null) {
+                        res.status(204).send("Found no house with ID: " + response.houseId);
+                        return;
+                    }
+
                     responseObj.relatables[house.houseId] = house;
 
                     usersDao.getUserById(response.userId, function(user) {
+                        if (user == null) {
+                            res.status(204).send("Found no user with ID: " + response.userId);
+                            return;
+                        }
+
                         responseObj.relatables[user.userId] = user;
                         res.send(responseObj);
                     });
@@ -56,7 +90,6 @@ module.exports = {
                 }
 
                 var chore = {};
-                chore.choreId = req.body.choreId;
                 chore.name = req.body.name;
                 chore.description = req.body.description;
                 chore.dueDate = req.body.dueDate;
@@ -74,7 +107,8 @@ module.exports = {
                         responseObj.relatables = {};
                         responseObj.relatables[chore.houseId] = house;
                         responseObj.relatables[chore.userId] = user;
-                        res.send(responseObj);
+                        //res.send(responseObj);
+                        res.sendStatus(200);
                     }
                 });
             });

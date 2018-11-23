@@ -20,9 +20,8 @@ module.exports = {
 
     createHouse: function(req, res, next) {
         var house = {};
-        house.houseId = req.body.houseId;
         house.name = req.body.name;
-        house.userCount = req.body.userCount;
+        house.userCount = 0;
 
         housesDao.insertHouse(house, function(response) {
             if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
@@ -44,7 +43,6 @@ module.exports = {
 
             house.houseId = req.body.houseId;
             house.name = req.body.name;
-            house.userCount = req.body.userCount;
 
             housesDao.updateHouse(house, function(response) {
                 if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
