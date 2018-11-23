@@ -15,8 +15,11 @@ npm install --prefix client- installs client dependencies
 npm install --prefix server install <libraryName>- install a library to the server program
 npm install --prefix client install <libraryName>- install a library to the client program
 
-}
 
+node_modules, server/node_modules, and client/node_modules have been added to .gitignore.
+db.js has been removed from .gitignore.
+
+}
 
 
 ### 11/13 - .gitignore setup to ignore .DS_Store files and *db.js* - this is to allow users to have different usernames and passwords. Future changes to db.js will need to be pulled by force
