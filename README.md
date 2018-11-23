@@ -24,6 +24,7 @@ npm install --prefix client install <libraryName>- install a library to the clie
 
 
 node_modules, server/node_modules, and client/node_modules have been added to .gitignore.
+
 db.js has been removed from .gitignore.
 
 }
