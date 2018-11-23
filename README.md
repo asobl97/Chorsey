@@ -5,14 +5,21 @@ Added 11/22 {
 Look at server/db/schema/UsersDbSchema.js before working on anything.
 
 npm start- runs project on localhost:8080
+
 npm start --prefix server- runs server on localhost:3000
+
 npm start --prefix client- runs client on localhost:8080
 
+
 npm install- installs server and client dependencies <-- run before working on anything
+
 npm install --prefix server- installs server dependencies
+
 npm install --prefix client- installs client dependencies
 
+
 npm install --prefix server install <libraryName>- install a library to the server program
+
 npm install --prefix client install <libraryName>- install a library to the client program
 
 
