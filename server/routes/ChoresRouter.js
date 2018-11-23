@@ -13,6 +13,8 @@ router.delete('/:choreId', function(req, res, next) { choresController.deleteCho
 module.exports = router;
 
 
-//curl --header "Content-Type: application/json"  --request DELETE --data '{"userId":"342","name":"newNewUser","email":"new@email.com","houseId":"17"}' http://localhost:3000/users/342
+//curl --header "Content-Type: application/json"  --request POST --data '{"name":"Cool User","email":"hello@service.com","password":"Greetings"}' http://localhost:3000/auth
+
+//curl --header "Content-Type: application/json"  --request PUT --data '{"email":"hello7@service.com","password":"Greetings"}' http://localhost:3000/auth/login
 
 //curl --header "Content-Type: application/json"  --request DELETE --data '{"houseId":"99","name":"newestHouse","userCount":"12"}' http://localhost:3000/houses/99

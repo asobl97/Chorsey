@@ -1,9 +1,17 @@
 module.exports = {
     isEmpty: function(object) {
-        return ((object == null) || (object == undefined));
+        for(var key in object) {
+            if(object.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     },
 
     isNotEmpty: function(object) {
-        return ((object != null) && (object != undefined));
+        for(var key in object) {
+            if(object.hasOwnProperty(key))
+                return true;
+        }
+        return false;
     }
 };

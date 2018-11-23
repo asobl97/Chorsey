@@ -8,6 +8,7 @@ router.get('/:userId', function(req, res, next) { usersController.getUserById(re
 
 router.post('/', function(req, res, next) { usersController.createUser(req, res, next); });
 router.put('/:userId', function(req, res, next) { usersController.updateUser(req, res, next); });
+router.put('/:userId/house/:houseId', function(req, res, next) { usersController.assignHouse(req, res, next); });
 router.delete('/:userId', function(req, res, next) { usersController.deleteUser(req, res, next); });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-var db = require('../../db/db.js');
+var db = require('../db/db.js');
 var dbUtil = require('../utils/DbUtil.js');
 
 module.exports = {
@@ -23,6 +23,25 @@ module.exports = {
         });
     },
 
+    getUsersByIds: function(userIds, response) {
+        var query =
+            "SELECT T1.* " +
+                "FROM users AS T1 " +
+                "WHERE T1.userId IN (";
+
+        for (var i=0;i<userIds.length;i++) {
+            query += "?";
+            if (i<userIds.length-1) {
+                query += ", ";
+            }
+        }
+        query += ");";
+
+        db.query(query, userIds, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
     getUsersByHouseId: function(houseId, response) {
 
         var query =
@@ -38,13 +57,12 @@ module.exports = {
 
     insertUser: function(user, response) {
         var query =
-            "INSERT INTO users (userId, name, email, houseId) " +
-                "VALUES (?, ?, ?, ?);";
+            "INSERT INTO users (userId, name, houseId) " +
+                "VALUES (?, ?, ?);";
 
         var params = [
             user.userId,
             user.name,
-            user.email,
             user.houseId
         ];
 
@@ -56,13 +74,12 @@ module.exports = {
     updateUser: function(user, response) {
         var query =
             "UPDATE users " +
-                "SET userId = ?, name = ?, email = ?, houseId = ? " +
+                "SET userId = ?, name = ?, houseId = ? " +
                 "WHERE userId = ?;";
 
         var params = [
             user.userId,
             user.name,
-            user.email,
             user.houseId,
             user.userId
         ];
@@ -76,8 +93,6 @@ module.exports = {
         var query =
             "DELETE FROM users " +
                 "WHERE userId = ?;";
-
-        console.log("userId: " + user.userId);
 
         db.query(query, user.userId, function (err, result) {
             dbUtil.handleQueryResult(err, result, response);

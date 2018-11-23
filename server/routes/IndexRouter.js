@@ -7,5 +7,3 @@ var indexController = require('../controllers/Index.js');
 router.get('/', function(req, res, next) { indexController.getHomePage(req, res, next) });
 
 module.exports = router;
-
-//to be built, using same logic as chores-router

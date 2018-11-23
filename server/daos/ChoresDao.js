@@ -1,4 +1,4 @@
-var db = require('../../db/db.js');
+var db = require('../db/db.js');
 
 var util = require('../utils/util.js');
 var dbUtil = require('../utils/DbUtil.js');
@@ -91,11 +91,10 @@ module.exports = {
 
     insertChore: function(chore, response) {
         var query =
-            "INSERT INTO chores (choreId, name, description, dueDate, userId, houseId, completed) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+            "INSERT INTO chores (name, description, dueDate, userId, houseId, completed) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
 
         var params = [
-            chore.choreId,
             chore.name,
             chore.description,
             chore.dueDate,
