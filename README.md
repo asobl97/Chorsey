@@ -18,9 +18,9 @@ npm install --prefix server- installs server dependencies
 npm install --prefix client- installs client dependencies
 
 
-npm install --prefix server install "libraryName"- install a library to the server program
+npm install --prefix server install libraryName- install a library to the server program
 
-npm install --prefix client install "libraryName"- install a library to the client program
+npm install --prefix client install libraryName- install a library to the client program
 
 
 node_modules, server/node_modules, and client/node_modules have been added to .gitignore.
