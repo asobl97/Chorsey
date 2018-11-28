@@ -87,7 +87,7 @@ module.exports = {
     },
 
     resetPassword : function(req, res, next) {
-        authDao.resetPassword(req.params.resetCode, req.params.newPassword, function (response) {
+        authDao.resetPassword(req.body.resetCode, req.body.newPassword, function (response) {
             if (util.isNotEmpty(response)) {
                 res.send(response);
             } else {
