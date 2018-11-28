@@ -17,6 +17,7 @@ module.exports = {
 
                     responseObj.relatables = {};
                     responseObj.relatables[house.houseId] = house;
+
                     res.send(responseObj);
                 });
             });
@@ -38,6 +39,7 @@ module.exports = {
                             responseObj.relatables[houses[housesi].houseId] = houses[housesi];
                         }
                     }
+
                     res.send(responseObj);
                 });
             });
@@ -46,17 +48,20 @@ module.exports = {
 
     getUserById: function(req, res, next) {
         usersDao.getUserById(req.params.userId, function(response) {
+            if (user == null) {
+                res.status(204).send("Found no user with ID: " + req.params.userId);
+                return;
+            }
+
             var responseObj = {};
             responseObj.result = response;
 
             responseObj.relatables = {};
             housesDao.getHouseById(response.houseId, function(house) {
-                if (house == null) {
-                    res.status(204).send("Found no house with ID: " + response.houseId);
-                    return;
+                if (util.isNotEmpty(house)) {
+                    responseObj.relatables[house.houseId] = house;
                 }
 
-                responseObj.relatables[house.houseId] = house;
                 res.send(responseObj);
             });
         });
@@ -74,6 +79,7 @@ module.exports = {
             } else {
                 var responseObj = {};
                 responseObj.result = user;
+
                 res.send(responseObj);
             }
         });
@@ -92,7 +98,7 @@ module.exports = {
                     return;
                 }
 
-                user.userId = req.body.userId;
+                user.userId = req.params.userId;
                 user.name = req.body.name;
                 user.houseId = req.body.houseId;
 
@@ -108,6 +114,7 @@ module.exports = {
 
                         housesDao.updateHouseUserCount(user.houseId, function (userCount) {
                             responseObj.relatables[user.houseId].userCount = userCount;
+
                             res.send(responseObj);
                         });
                     }
@@ -143,6 +150,7 @@ module.exports = {
 
                         housesDao.updateHouseUserCount(user.houseId, function (userCount) {
                             responseObj.relatables[user.houseId].userCount = userCount;
+
                             res.send(responseObj);
                         });
                     }

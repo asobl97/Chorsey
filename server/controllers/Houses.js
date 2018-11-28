@@ -6,14 +6,21 @@ module.exports = {
         housesDao.getAllHouses(function(response) {
             var responseObj = {};
             responseObj.result = response;
+
             res.send(responseObj);
         });
     },
 
     getHouseById: function(req, res, next) {
         housesDao.getHouseById(req.params.houseId, function(response) {
+            if (house == null) {
+                res.status(204).send("Found no house with ID: " + req.params.houseId);
+                return;
+            }
+
             var responseObj = {};
             responseObj.result = response;
+
             res.send(responseObj);
         });
     },
@@ -28,7 +35,8 @@ module.exports = {
                 res.sendStatus(500);
             } else {
                 var responseObj = {};
-                responseObj.result = response;
+                responseObj.result = house;
+
                 res.send(responseObj);
             }
         });
@@ -41,7 +49,7 @@ module.exports = {
                 return;
             }
 
-            house.houseId = req.body.houseId;
+            house.houseId = req.params.houseId;
             house.name = req.body.name;
 
             housesDao.updateHouse(house, function(response) {
@@ -49,7 +57,8 @@ module.exports = {
                     res.sendStatus(500);
                 } else {
                     var responseObj = {};
-                    responseObj.result = response;
+                    responseObj.result = house;
+
                     res.send(responseObj);
                 }
             });

@@ -59,20 +59,16 @@ module.exports = {
 
                 responseObj.relatables = {};
                 housesDao.getHouseById(response.houseId, function(house) {
-                    if (house == null) {
-                        res.status(204).send("Found no house with ID: " + response.houseId);
-                        return;
+                    if (util.isNotEmpty(house)) {
+                        responseObj.relatables[house.houseId] = house;
                     }
 
-                    responseObj.relatables[house.houseId] = house;
 
                     usersDao.getUserById(response.userId, function(user) {
-                        if (user == null) {
-                            res.status(204).send("Found no user with ID: " + response.userId);
-                            return;
+                        if (util.isNotEmpty(user)) {
+                            responseObj.relatables[user.userId] = user;
                         }
 
-                        responseObj.relatables[user.userId] = user;
                         res.send(responseObj);
                     });
                 });
@@ -111,8 +107,8 @@ module.exports = {
                         responseObj.relatables = {};
                         responseObj.relatables[chore.houseId] = house;
                         responseObj.relatables[chore.userId] = user;
-                        //res.send(responseObj);
-                        res.sendStatus(200);
+
+                        res.send(responseObj);
                     }
                 });
             });
@@ -138,7 +134,7 @@ module.exports = {
                         return;
                     }
 
-                    chore.choreId = req.body.choreId;
+                    chore.choreId = req.params.choreId;
                     chore.name = req.body.name;
                     chore.description = req.body.description;
                     chore.dueDate = req.body.dueDate;
@@ -156,6 +152,7 @@ module.exports = {
                             responseObj.relatables = {};
                             responseObj.relatables[chore.houseId] = house;
                             responseObj.relatables[chore.userId] = user;
+
                             res.send(responseObj);
                         }
                     });

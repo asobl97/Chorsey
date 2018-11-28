@@ -7,5 +7,3 @@ module.exports =
         "CHANGE userId userId VARCHAR(32) NULL, " +
         "CHANGE houseId houseId INT NOT NULL, " +
         "CHANGE completed completed BOOLEAN NOT NULL default FALSE;";
-        //repeating_type
-        //future_assign
