@@ -18,13 +18,17 @@ function getAllChoresRelatables(res, response) {
     }
 
     usersDao.getUsersByIds(userIds, function(users) {
-        for (var usersi=0;usersi<users.length;usersi++) {
-            responseObj.relatables[users[usersi].userId] = users[usersi];
+        if (util.isNotEmpty(users)) {
+            for (var usersi = 0; usersi < users.length; usersi++) {
+                responseObj.relatables[users[usersi].userId] = users[usersi];
+            }
         }
 
         housesDao.getHousesByIds(houseIds, function(houses) {
-            for (var housesi=0;housesi<houses.length;housesi++) {
-                responseObj.relatables[houses[housesi].houseId] = houses[housesi];
+            if (util.isNotEmpty(houses)) {
+                for (var housesi = 0; housesi < houses.length; housesi++) {
+                    responseObj.relatables[houses[housesi].houseId] = houses[housesi];
+                }
             }
 
             res.send(responseObj);

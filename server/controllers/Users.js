@@ -33,8 +33,10 @@ module.exports = {
                 }
 
                 housesDao.getHousesByIds(houseIds, function(houses) {
-                    for (var housesi=0;housesi<houses.length;housesi++) {
-                        responseObj.relatables[houses[housesi].houseId] = houses[housesi];
+                    if (util.isNotEmpty(houses)) {
+                        for (var housesi = 0; housesi < houses.length; housesi++) {
+                            responseObj.relatables[houses[housesi].houseId] = houses[housesi];
+                        }
                     }
                     res.send(responseObj);
                 });
