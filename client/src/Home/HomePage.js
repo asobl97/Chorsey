@@ -140,6 +140,7 @@ class HomePage extends React.Component {
     // add house to current user object
     // send user up to setCurrentUser(user)
     // shit should then propogate back down
+    /*
     if (existing) {
       console.log("not where we want");
     } else {
@@ -151,6 +152,13 @@ class HomePage extends React.Component {
         houseId: this.props.currentUser.house.houseId
       });
     }
+    */
+    var currentUser = this.props.currentUser;
+    currentUser.house = house;
+    this.props.setCurrentUser(currentUser);
+    this.setState({
+      houseId: this.props.currentUser.house.houseId
+    });
   };
 
   completedAddChore = chore => {

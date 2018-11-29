@@ -68,7 +68,7 @@ function HomeIcon(props) {
 class AddHouseForm extends React.Component {
   state = {
     houseJoinType: "newHouse", //create new or join existing house
-    houseID: "",
+    houseId: "",
     houseName: "",
     loading: false,
     success: false
@@ -88,15 +88,7 @@ class AddHouseForm extends React.Component {
           loading: true
         },
         () => {
-          /*
-          TODO
-              if(existing){
-                // put house id on user
-                // house will be returned in the relatables
-              }else{
-                // create house
-              }
-          */
+
           const houseJoinType = this.state.houseJoinType;
           const acurrentUser = this.props.currentUser;
           const completedAddHouse = this.props.completedAddHouse;
@@ -132,20 +124,48 @@ class AddHouseForm extends React.Component {
               console.log(error);
             });
           } else {
-            /*
-            axios
-              .post("http://localhost:3000/auth", {
-                name: name,
-                email: email,
-                password: password
+
+            const houseId = this.state.houseId;
+            const existing = true;
+            console.log('house id');
+              console.log(houseId);
+
+            api.put(`/users/${acurrentUser.userId}/house/${houseId}`, {
+              // everything is in path
+            })
+            .then(function (response) {
+              console.log('put user house response');
+              console.log(response);
+
+              var house = {
+                houseId: houseId
+              };
+
+              // get house name
+              api.get(`/houses/${houseId}`)
+              .then(function (houseResponse) {
+                console.log('get existing house response');
+                console.log(houseResponse);
+                house.name = houseResponse.data.result.name;
+                // get house members
+                api.get(`/users?houseId=${houseId}`)
+                .then(function (membersResponse) {
+                  console.log('get house members response');
+                  console.log(membersResponse);   
+                  house.members = membersResponse.data.result;    
+                  completedAddHouse(house, existing);           
+                })
+                .catch(function (houseError) {
+                  console.log(houseError);
+                });
               })
-              .then(function (response) {
-                console.log(response);
-              })
-              .catch(function (error) {
-                console.log(error);
+              .catch(function (houseError) {
+                console.log(houseError);
               });
-            */
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
           }
         }
       );
@@ -193,13 +213,13 @@ class AddHouseForm extends React.Component {
     } else {
       inputTextfield = (
         <TextField
-          id="outlined-houseID-input"
+          id="outlined-houseId-input"
           label="House ID"
           className={classes.textField}
-          type="houseID"
-          name="houseID"
-          value={this.state.houseID}
-          onChange={this.handleChange("houseID")}
+          type="houseId"
+          name="houseId"
+          value={this.state.houseId}
+          onChange={this.handleChange("houseId")}
           margin="normal"
           variant="outlined"
         />
