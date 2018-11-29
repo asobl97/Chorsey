@@ -117,7 +117,12 @@ class AddHouseForm extends React.Component {
               .then(function (response) {
                 console.log('put user house response');
                 console.log(response);
-                completedAddHouse(createHouseResponse.data.result, existing);
+                var house = createHouseResponse.data.result;
+                house.members = [{
+                  userId: acurrentUser.userId,
+                  name: acurrentUser.name
+                }];
+                completedAddHouse(house, existing);
               })
               .catch(function (error) {
                 console.log(error);
@@ -126,23 +131,6 @@ class AddHouseForm extends React.Component {
             .catch(function (error) {
               console.log(error);
             });
-
-            /*
-            axios
-              .post("http://localhost:3000/auth", {
-                name: name,
-                email: email,
-                password: password
-              })
-              .then(function (response) {
-                console.log(response);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-            */
-            // ends with
-            //this.props.completedAddHouse(house, existing)
           } else {
             /*
             axios
