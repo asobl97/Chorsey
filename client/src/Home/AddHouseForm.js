@@ -1,0 +1,260 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import axios from "axios";
+
+const styles = theme => ({
+  formContainer: {
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "column",
+    width: 400,
+    marginTop: theme.spacing.unit * 20,
+    padding: theme.spacing.unit * 3,
+    margin: "auto",
+    borderRadius: 5,
+    boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .1)"
+  },
+  header: {
+    flexGrow: 1,
+    marginLeft: theme.spacing.unit,
+    //marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit
+  },
+  icon: {
+    margin: theme.spacing.unit * 2
+  },
+  textField: {
+    marginTop: theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  },
+  button: {
+    marginTop: theme.spacing.unit * 2,
+    margin: "auto",
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+    borderRadius: 3,
+    border: 0,
+    color: "white",
+    height: 50,
+    width: 125,
+    padding: "0 30px",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)"
+  },
+  buttonLoading: {
+    backgroundColor: "white",
+    "&$selected, &$selected:hover": {
+      backgroundColor: "white"
+    }
+  }
+});
+
+function HomeIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
+
+class AddHouseForm extends React.Component {
+  state = {
+    houseJoinType: "newHouse", //create new or join existing house
+    houseID: "",
+    houseName: "",
+    loading: false,
+    success: false
+  };
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
+  handleAddHouseSubmit = event => {
+    if (!this.state.loading) {
+      this.setState(
+        {
+          success: false,
+          loading: true
+        },
+        () => {
+          /*
+          TODO
+              if(existing){
+                // put house id on user
+                // house will be returned in the relatables
+              }else{
+                // create house
+              }
+          */
+          const houseJoinType = this.state.houseJoinType;
+
+          if (houseJoinType === "newHouse") {
+            const houseName = this.state.houseName;
+            const existing = false;
+            const members = [
+              {
+                userId: this.props.currentUser.userId,
+                name: this.props.currentUser.name
+              }
+            ];
+            const house = {
+              houseId: "randomNumbHouseId",
+              name: houseName,
+              members: members
+            };
+            this.timer = setTimeout(() => {
+              this.setState({
+                loading: false,
+                success: true
+              });
+              this.props.completedAddHouse(house, existing);
+            }, 1000);
+
+            /*
+            axios
+              .post("http://localhost:3000/auth", {
+                name: name,
+                email: email,
+                password: password
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            */
+            // ends with
+            //this.props.completedAddHouse(house, existing)
+          } else {
+            /*
+            axios
+              .post("http://localhost:3000/auth", {
+                name: name,
+                email: email,
+                password: password
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            */
+          }
+        }
+      );
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    const houseJoinType = this.state.houseJoinType;
+
+    const loading = this.state.loading;
+
+    var buttonClassName;
+    var buttonText;
+
+    if (!loading) {
+      buttonClassName = classes.button;
+      buttonText = "Finish";
+    } else {
+      buttonClassName = classes.buttonLoading;
+      if (houseJoinType === "newHouse") {
+        buttonText = "Creating house...";
+      } else {
+        buttonText = "Joining house...";
+      }
+    }
+
+    let inputTextfield;
+
+    if (houseJoinType === "newHouse") {
+      inputTextfield = (
+        <TextField
+          id="outlined-houseName-input"
+          label="House Name"
+          className={classes.textField}
+          type="houseName"
+          name="houseName"
+          value={this.state.houseName}
+          onChange={this.handleChange("houseName")}
+          margin="normal"
+          variant="outlined"
+        />
+      );
+    } else {
+      inputTextfield = (
+        <TextField
+          id="outlined-houseID-input"
+          label="House ID"
+          className={classes.textField}
+          type="houseID"
+          name="houseID"
+          value={this.state.houseID}
+          onChange={this.handleChange("houseID")}
+          margin="normal"
+          variant="outlined"
+        />
+      );
+    }
+
+    return (
+      <form className={classes.formContainer} noValidate autoComplete="off">
+        <HomeIcon className={classes.icon} color="primary" fontSize="large" />
+        <Typography variant="h6" color="inherit" className={classes.header}>
+          Join a house!
+        </Typography>
+        <FormControl component="fieldset" className={classes.formControl}>
+          <RadioGroup
+            aria-label="House Join Type"
+            name="houseJoinType"
+            className={classes.group}
+            value={this.state.houseJoinType}
+            onChange={this.handleChange("houseJoinType")}
+          >
+            <FormControlLabel
+              value="newHouse"
+              name="houseJoinType"
+              control={<Radio />}
+              label="Create House"
+            />
+            <FormControlLabel
+              value="existingHouse"
+              name="houseJoinType"
+              control={<Radio />}
+              label="Existing House"
+            />
+          </RadioGroup>
+        </FormControl>
+        {inputTextfield}
+        <Button
+          className={buttonClassName}
+          disabled={loading}
+          onClick={this.handleAddHouseSubmit}
+        >
+          {buttonText}
+        </Button>
+      </form>
+    );
+  }
+}
+
+AddHouseForm.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(AddHouseForm);
