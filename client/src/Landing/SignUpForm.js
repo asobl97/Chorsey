@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
+import api from "../api.js";
 
 const styles = theme => ({
   container: {
@@ -77,24 +77,30 @@ class SignUpForm extends React.Component {
           // on success, would bubble up current user to app.js
           /*
            */
+          const setCurrentUser = this.props.setCurrentUser;
+
           const name = this.state.name;
           const email = this.state.email;
           const password = this.state.password;
 
-          var currentUser = {
-            userId: "randID",
+          api.post('/auth', {
             name: name,
             email: email,
             password: password
-          };
-
-          this.timer = setTimeout(() => {
+          })
+          .then(function (response) {
+            /*
             this.setState({
               loading: false,
               success: true
             });
-            this.props.setCurrentUser(currentUser);
-          }, 1500);
+            */
+           const currentUser = response.data.result;
+           setCurrentUser(currentUser)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         }
       );
     }

@@ -9,7 +9,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import axios from "axios";
+import api from "../api.js";
 
 const styles = theme => ({
   formContainer: {
@@ -98,28 +98,34 @@ class AddHouseForm extends React.Component {
               }
           */
           const houseJoinType = this.state.houseJoinType;
+          const acurrentUser = this.props.currentUser;
+          const completedAddHouse = this.props.completedAddHouse;
 
           if (houseJoinType === "newHouse") {
             const houseName = this.state.houseName;
             const existing = false;
-            const members = [
-              {
-                userId: this.props.currentUser.userId,
-                name: this.props.currentUser.name
-              }
-            ];
-            const house = {
-              houseId: "randomNumbHouseId",
-              name: houseName,
-              members: members
-            };
-            this.timer = setTimeout(() => {
-              this.setState({
-                loading: false,
-                success: true
+
+            api.post('/houses', {
+              name: houseName
+            })
+            .then(function (createHouseResponse) {
+              console.log('create house response');
+              console.log(createHouseResponse);
+              api.put(`/users/${acurrentUser.userId}/house/${createHouseResponse.data.result.houseId}`, {
+                // everything is in path
+              })
+              .then(function (response) {
+                console.log('put user house response');
+                console.log(response);
+                completedAddHouse(createHouseResponse.data.result, existing);
+              })
+              .catch(function (error) {
+                console.log(error);
               });
-              this.props.completedAddHouse(house, existing);
-            }, 1000);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
 
             /*
             axios

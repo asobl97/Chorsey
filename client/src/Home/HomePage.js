@@ -193,7 +193,7 @@ class HomePage extends React.Component {
             <Typography
               align="center"
               variant="h3"
-              color="black"
+              color="textPrimary"
               className={classes.headerLabel}
             >
               Join a house!
@@ -222,7 +222,7 @@ class HomePage extends React.Component {
             <Typography
               align="center"
               variant="h3"
-              color="black"
+              color="textPrimary"
               className={classes.headerLabel}
             >
               {this.props.currentUser.house.name}
