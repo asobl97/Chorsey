@@ -127,6 +127,7 @@ class ChoreList extends React.Component {
             <div style={getModalStyle()} className={classes.addChoreForm}>
               <AddChoreForm
                 houseMembers={this.props.houseMembers}
+                houseId={this.props.houseId}
                 completedAddChore={this.props.completedAddChore}
                 closeAddChoreForm={this.closeAddChoreForm}
               />
@@ -189,6 +190,7 @@ class ChoreList extends React.Component {
           >
             <div style={getModalStyle()} className={classes.addChoreForm}>
               <AddChoreForm
+                houseId={this.props.houseId}
                 houseMembers={this.props.houseMembers}
                 completedAddChore={this.props.completedAddChore}
                 closeAddChoreForm={this.closeAddChoreForm}

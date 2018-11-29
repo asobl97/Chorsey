@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import axios from "axios";
+import api from "../api.js";
 
 const styles = theme => ({
   container: {
@@ -64,6 +65,15 @@ const styles = theme => ({
   }
 });
 
+function formatDate(date) {
+
+  var day = date.getDate();
+  var month = date.getMonth();
+  var year = date.getFullYear(); 
+
+  return `${year}-${month}-${day}`;
+}
+
 class AddChoreForm extends React.Component {
   constructor(props) {
     super(props);
@@ -72,8 +82,18 @@ class AddChoreForm extends React.Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+    });
+  }
+
   state = {
-    assignedTo: "",
+    labelWidth: 0,
+    assignedTo: {
+      userId: '',
+      name: ''
+    },
     title: "",
     description: "",
     selectedDay: null,
@@ -124,40 +144,35 @@ class AddChoreForm extends React.Component {
           console.log(this.state.selectedDay);
           console.log(typeof this.state.selectedDay);
 
-          const chore = {
-            choreId: "randonNumb",
-            assignedTo: assignedTo,
-            title: title,
+          const houseId = this.props.houseId;
+          const closeAddChoreForm = this.props.closeAddChoreForm;
+          const completedAddChore = this.props.completedAddChore;
+
+          api.post('/chores', {
+            houseId: houseId,
+            userId: assignedTo.userId,
+            name: title,
             description: description,
-            dueDate: selectedDay
-          };
+            dueDate: formatDate(selectedDay),
+            completed: false
+          })
+          .then(function (response) {
+            console.log('post chores response');
+            console.log(response);
 
-          this.timer = setTimeout(() => {
-            this.setState({
-              loading: false,
-              success: true
-            });
-            this.props.closeAddChoreForm();
-            this.props.completedAddChore(chore);
-          }, 1300);
-
-          /*
-          axios
-            .post("http://localhost:3000/auth", {
+            const chore = {
+              choreId: response.data.result.choreId,
               assignedTo: assignedTo,
               title: title,
               description: description,
-              selectedDay: selectedDay
-            })
-            .then(function(response) {
-              console.log(response);
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-
-            // this.props.completedAddChore(chore)
-            */
+              dueDate: selectedDay
+            };
+            closeAddChoreForm();
+            completedAddChore(chore);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         }
       );
     }
@@ -187,13 +202,15 @@ class AddChoreForm extends React.Component {
           Add Chore
         </Typography>
         <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel htmlFor="outlined-assign-simple">Assign To</InputLabel>
+          <InputLabel htmlFor="outlined-assign-simple" ref={ref => {
+              this.InputLabelRef = ref;
+            }}>Assign To</InputLabel>
           <Select
             value={this.state.assignedTo}
             onClick={this.handleSelectChange}
             input={
               <OutlinedInput
-                //labelWidth={this.state.labelWidth}
+                labelWidth={this.state.labelWidth}
                 name="assignedTo"
                 id="outlined-assign-simple"
               />

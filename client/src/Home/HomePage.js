@@ -136,23 +136,6 @@ class HomePage extends React.Component {
 
   completedAddHouse = (house, existing) => {
     this.closeAddHouseForm();
-    // TODO
-    // add house to current user object
-    // send user up to setCurrentUser(user)
-    // shit should then propogate back down
-    /*
-    if (existing) {
-      console.log("not where we want");
-    } else {
-      console.log("where we want");
-      var currentUser = this.props.currentUser;
-      currentUser.house = house;
-      this.props.setCurrentUser(currentUser);
-      this.setState({
-        houseId: this.props.currentUser.house.houseId
-      });
-    }
-    */
     var currentUser = this.props.currentUser;
     currentUser.house = house;
     this.props.setCurrentUser(currentUser);
@@ -238,6 +221,7 @@ class HomePage extends React.Component {
             <ChoreList
               chores={chores}
               currentUserID={this.props.currentUser.userId}
+              houseId={this.state.houseId}
               houseMembers={houseMembers}
               completedAddChore={this.completedAddChore}
             />
