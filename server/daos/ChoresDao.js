@@ -53,6 +53,18 @@ module.exports = {
         });
     },
 
+    getChoresByName: function(name, response) {
+        var query =
+            "SELECT T1.* " +
+            "FROM chores AS T1 " +
+            "WHERE T1.name = ? " +
+            "ORDER BY T1.dueDate DESC;";
+
+        db.query(query, name, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
     getChoresByUserId: function(userId, response) {
         var query =
             "SELECT T1.* " +

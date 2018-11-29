@@ -13,7 +13,7 @@ module.exports = {
 
     getHouseById: function(req, res, next) {
         housesDao.getHouseById(req.params.houseId, function(response) {
-            if (house == null) {
+            if (response == null) {
                 res.status(204).send("Found no house with ID: " + req.params.houseId);
                 return;
             }
@@ -26,18 +26,36 @@ module.exports = {
     },
 
     createHouse: function(req, res, next) {
-        var house = {};
-        house.name = req.body.name;
-        house.userCount = 0;
+        var tempHouse = {};
+        tempHouse.name = "TEMP";
+        tempHouse.userCount = 0;
 
-        housesDao.insertHouse(house, function(response) {
-            if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
+        housesDao.insertHouse(tempHouse, function(tempHouseResponse) {
+            if ((util.isEmpty(tempHouseResponse)) || (tempHouseResponse.affectedRows != 1)) {
                 res.sendStatus(500);
             } else {
-                var responseObj = {};
-                responseObj.result = house;
+                housesDao.getHousesByName(tempHouse.name, function(houses) {
+                    if (houses == null) {
+                        res.status(500);
+                        return;
+                    }
 
-                res.send(responseObj);
+                    var house = {};
+                    house.houseId = houses[0].houseId;
+                    house.name = req.body.name;
+                    house.userCount = 0;
+
+                    housesDao.updateHouse(house, function(response) {
+                        if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
+                            res.sendStatus(500);
+                        } else {
+                            var responseObj = {};
+                            responseObj.result = house;
+
+                            res.send(responseObj);
+                        }
+                    });
+                });
             }
         });
     },

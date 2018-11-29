@@ -43,6 +43,17 @@ module.exports = {
         });
     },
 
+    getHousesByName: function(name, response) {
+        var query =
+            "SELECT T1.* " +
+            "FROM houses AS T1 " +
+            "WHERE T1.name = ?;";
+
+        db.query(query, name, function (err, result) {
+            dbUtil.handleQueryResult(err, result, response);
+        });
+    },
+
     insertHouse: function(house, response) {
         var query =
             "INSERT INTO houses (name, userCount) " +

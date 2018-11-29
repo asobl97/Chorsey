@@ -48,7 +48,7 @@ module.exports = {
 
     getUserById: function(req, res, next) {
         usersDao.getUserById(req.params.userId, function(response) {
-            if (user == null) {
+            if (response == null) {
                 res.status(204).send("Found no user with ID: " + req.params.userId);
                 return;
             }
