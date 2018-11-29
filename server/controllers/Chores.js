@@ -53,26 +53,26 @@ module.exports = {
         choresDao.getChoreById(req.params.choreId, function(response) {
             if (response == null) {
                 res.status(204).send("Found no chore with ID: " + req.params.choreId);
-            } else {
-                var responseObj = {};
-                responseObj.result = response;
+                return;
+            }
 
-                responseObj.relatables = {};
-                housesDao.getHouseById(response.houseId, function(house) {
-                    if (util.isNotEmpty(house)) {
-                        responseObj.relatables[house.houseId] = house;
+            var responseObj = {};
+            responseObj.result = response;
+
+            responseObj.relatables = {};
+            housesDao.getHouseById(response.houseId, function(house) {
+                if (util.isNotEmpty(house)) {
+                    responseObj.relatables[house.houseId] = house;
+                }
+
+                usersDao.getUserById(response.userId, function(user) {
+                    if (util.isNotEmpty(user)) {
+                        responseObj.relatables[user.userId] = user;
                     }
 
-
-                    usersDao.getUserById(response.userId, function(user) {
-                        if (util.isNotEmpty(user)) {
-                            responseObj.relatables[user.userId] = user;
-                        }
-
-                        res.send(responseObj);
-                    });
+                    res.send(responseObj);
                 });
-            }
+            });
         });
     },
 
@@ -90,26 +90,42 @@ module.exports = {
                 }
 
                 var chore = {};
-                chore.name = req.body.name;
+                chore.name = "TEMP";
                 chore.description = req.body.description;
                 chore.dueDate = req.body.dueDate;
                 chore.userId = req.body.userId;
                 chore.houseId = req.body.houseId;
                 chore.completed = req.body.completed;
 
-                choresDao.insertChore(chore, function(response) {
-                    if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
+                choresDao.insertChore(chore, function(tempChoreResponse) {
+                    if ((util.isEmpty(tempChoreResponse)) || (tempChoreResponse.affectedRows != 1)) {
                         res.sendStatus(500);
-                    } else {
-                        var responseObj = {};
-                        responseObj.result = chore;
-
-                        responseObj.relatables = {};
-                        responseObj.relatables[chore.houseId] = house;
-                        responseObj.relatables[chore.userId] = user;
-
-                        res.send(responseObj);
                     }
+                        choresDao.getChoresByName(chore.name, function(chores) {
+                            if (chores == null) {
+                                res.status(500);
+                                return;
+                            }
+
+                            chore.choreId = chores[0].choreId;
+                            chore.name = req.body.name;
+
+                            choresDao.updateChore(chore, function(response) {
+                                if ((util.isEmpty(response)) || (response.affectedRows != 1)) {
+                                    res.sendStatus(500);
+                                    return;
+                                }
+
+                                var responseObj = {};
+                                responseObj.result = chore;
+
+                                responseObj.relatables = {};
+                                responseObj.relatables[chore.houseId] = house;
+                                responseObj.relatables[chore.userId] = user;
+
+                                res.send(responseObj);
+                            });
+                        });
                 });
             });
         });
