@@ -17,13 +17,15 @@ const styles = theme => ({
   },
 });
 
-function handleClick() {
-  alert('You clicked the Chip.'); // eslint-disable-line no-alert
-}
-
 function HouseMemberChips(props) {
   const { classes } = props;
-  const houseMembers = props.houseMembers
+  const houseMembers = props.houseMembers;
+  const houseId = props.houseId;
+
+  function handleClick() {
+    alert(`Tell housemates to enter your house id when signing up. Your house id is: ${props.houseId}`); 
+  }
+
   return (
     <div className={classes.root}>
       {houseMembers.map(member => (

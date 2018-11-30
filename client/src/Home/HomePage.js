@@ -88,6 +88,14 @@ class HomePage extends React.Component {
   }
 
   setChores(chores) {
+    // order by date
+    chores.sort(function(a,b){
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      // https://stackoverflow.com/questions/10123953/sort-javascript-object-array-by-date
+      return a.dueDate - b.dueDate;
+    });
+
     this.setState({
       chores: chores
     });
@@ -123,7 +131,7 @@ class HomePage extends React.Component {
       chores.push(chore);
     }
 
-    this.setState({ chores: chores });
+    this.setChores(chores);
   };
 
   render() {
@@ -185,7 +193,7 @@ class HomePage extends React.Component {
             >
               {this.props.currentUser.house.name}
             </Typography>
-            <HouseMemberChips houseMembers={houseMembers}/>
+            <HouseMemberChips houseMembers={houseMembers} houseId={this.state.houseId}/>
             <ChoreList
               chores={chores}
               currentUserID={this.props.currentUser.userId}
