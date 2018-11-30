@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
 import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
@@ -18,6 +16,10 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
 });
+
+function handleClick() {
+  alert('You clicked the Chip.'); // eslint-disable-line no-alert
+}
 
 function HouseMemberChips(props) {
   const { classes } = props;
@@ -42,6 +44,7 @@ function HouseMemberChips(props) {
           add_circle
         </Icon>}
         clickable
+        onClick={handleClick}
         label="Invite Housemate"
         className={classes.chip}
         color="primary"

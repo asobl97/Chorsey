@@ -217,7 +217,7 @@ class ChoreList extends React.Component {
                         this.state.checked.indexOf(value.choreId) !== -1
                       }
                 >
-                  {value.assignedTo.name.charAt(0)}
+                  {value.assignedTo.name.split(" ", 2)[0].charAt(0) + value.assignedTo.name.split(" ", 2)[1].charAt(0).toUpperCase()}
                 </Avatar>
 
                 <ListItemText
