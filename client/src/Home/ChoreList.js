@@ -10,6 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import Icon from "@material-ui/core/Icon";
 import Avatar from "@material-ui/core/Avatar";
+import Tooltip from '@material-ui/core/Tooltip';
 import api from "../api.js";
 
 
@@ -212,7 +213,10 @@ class ChoreList extends React.Component {
                 divider
                 disabled={this.state.checked.indexOf(value.choreId) !== -1}
               >
-                <Avatar className={classes.avatar}>
+                <Avatar className={classes.avatar} disabled={
+                        this.state.checked.indexOf(value.choreId) !== -1
+                      }
+                >
                   {value.assignedTo.name.charAt(0)}
                 </Avatar>
 
@@ -221,9 +225,13 @@ class ChoreList extends React.Component {
                   secondary={`Assigned to: ${
                     value.assignedTo.name
                   }, due ${formatDate(value.dueDate)}`}
+                  disabled={
+                    this.state.checked.indexOf(value.choreId) !== -1
+                  }
                 />
-                {value.assignedTo.userId === this.props.currentUserID && (
-                  <ListItemSecondaryAction>
+                {value.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(value.choreId) === -1 && (
+                  <Tooltip title="Mark Completed" placement="left">
+                    <ListItemSecondaryAction>
                     <Checkbox
                       onChange={this.handleToggle(value.choreId)}
                       checked={this.state.checked.indexOf(value.choreId) !== -1}
@@ -231,7 +239,21 @@ class ChoreList extends React.Component {
                         this.state.checked.indexOf(value.choreId) !== -1
                       }
                     />
+                    </ListItemSecondaryAction>
+                  </Tooltip>
+                )}
+                {value.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(value.choreId) !== -1 &&  (
+                  <Tooltip title="Well Done!" placement="left">
+                  <ListItemSecondaryAction>
+                  <Checkbox
+                    onChange={this.handleToggle(value.choreId)}
+                    checked={this.state.checked.indexOf(value.choreId) !== -1}
+                    disabled={
+                      this.state.checked.indexOf(value.choreId) !== -1
+                    }
+                  />
                   </ListItemSecondaryAction>
+                  </Tooltip>
                 )}
               </ListItem>
             ))}
