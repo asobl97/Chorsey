@@ -19,8 +19,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   avatar: {
-    color: "#fff",
-    backgroundColor: theme.palette.primary.main
+    color: "#000",
+    backgroundColor: "#fff"
   },
   inline: {
     display: "inline",

@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import AddHouseForm from "./AddHouseForm.js";
-import axios from "axios";
+import HouseMemberChips from "./HouseMemberChips.js";
 
 Object.prototype.hasOwnProperty = function(property) {
   return this[property] !== undefined;
@@ -26,7 +26,7 @@ function getModalStyle() {
 
 const styles = theme => ({
   homePage: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit * 2
   },
   homeContent: {
     display: "flex",
@@ -36,7 +36,7 @@ const styles = theme => ({
     height: "100%"
   },
   headerLabel: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit 
   },
   addHouseForm: {
     position: "absolute"
@@ -185,6 +185,7 @@ class HomePage extends React.Component {
             >
               {this.props.currentUser.house.name}
             </Typography>
+            <HouseMemberChips houseMembers={houseMembers}/>
             <ChoreList
               chores={chores}
               currentUserID={this.props.currentUser.userId}
