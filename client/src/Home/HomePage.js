@@ -32,7 +32,7 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap",
     flexDirection: "column",
-    marginTop: "10%",
+    marginTop: "8%",
     height: "100%"
   },
   headerLabel: {
