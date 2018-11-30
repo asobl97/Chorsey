@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -10,6 +10,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import Icon from "@material-ui/core/Icon";
 import Avatar from "@material-ui/core/Avatar";
+import api from "../api.js";
+
 
 const styles = theme => ({
   root: {
@@ -27,6 +29,15 @@ const styles = theme => ({
     position: "absolute"
   }
 });
+
+function serverFormatDate(date) {
+
+  var day = date.getDate();
+  var month = date.getMonth();
+  var year = date.getFullYear(); 
+
+  return `${year}-${month}-${day}`;
+}
 
 function formatDate(date) {
   var monthNames = [
@@ -68,27 +79,76 @@ class ChoreList extends React.Component {
     addChoreFormOpened: false
   };
 
-  handleToggle = value => () => {
+  componentDidMount() {
+
+    const houseId = this.props.houseId;
+    const setChores = this.props.setChores;
+
+    //fetch those chores boi!!!!
+    api.get(`/chores?houseId=${houseId}&completed=FALSE`)
+    .then(function (choresResponse) {
+      console.log('get uncompleted house chores response');
+      console.log(choresResponse);   
+      var chores = choresResponse.data.result.map(chore =>{  
+        chore.assignedTo = choresResponse.data.relatables[chore.userId];
+        chore.dueDate = new Date(chore.dueDate);
+        return chore;
+     });
+      setChores(chores);
+    })
+    .catch(function (choresError) {
+      console.log('get uncompleted house chores error');
+      console.log(choresError);
+    });
+  }
+
+  handleToggle = value => () => { // basically handle mark as completed
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
       newChecked.push(value);
+      // push up chore marked as complete
+      // send request to mark chore as complete
+      const chores = this.props.chores;
+      /*
+      var chore;
+      for(chore in chores){
+        console.log(`looping chore: ${chore}`)
+        if(chore.choreId === value){
+          break;
+        }
+      }
+      */
+     const chore = chores.find((chore) => chore.choreId === value)
+      console.log(`marked value: ${value}`)
+      console.log(`marked chore matching value: ${chore}`)
+      console.log('about to mark as complete...');
+      console.log(`due date: ${chore.dueDate}`)
+      console.log(`due date type: ${typeof chore.dueDate}`)
+      console.log(chore);
+
+      api.put(`/chores/${value}`, {
+        userId: chore.userId, // should be the current user's user id
+        houseId: chore.houseId,
+        name: chore.name,
+        description: chore.description,
+        dueDate: serverFormatDate(chore.dueDate),
+        completed: true
+      })
+      .then(function (response) {
+        console.log('mark chore as completed response');
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log('mark chore as completed error');
+        console.log(error);
+      });      
       this.setState({
         checked: newChecked
       });
-      // push up chore marked as complete
-      // send request to mark chore as complete
-      // update state in home page
-    } else {
-      // this should never happen, for now
-      // newChecked.splice(currentIndex, 1);
     }
-
-    this.setState({
-      checked: newChecked
-    });
   };
 
   showAddChoreForm = () => {
@@ -157,7 +217,7 @@ class ChoreList extends React.Component {
                 </Avatar>
 
                 <ListItemText
-                  primary={`${value.title}`}
+                  primary={`${value.name}`}
                   secondary={`Assigned to: ${
                     value.assignedTo.name
                   }, due ${formatDate(value.dueDate)}`}

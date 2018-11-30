@@ -56,6 +56,12 @@ const styles = theme => ({
 });
 
 class HomePage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.setChores = this.setChores.bind(this);
+  }
+
   //content is toggled based on whether the current user has a house or not
   state = {
     houseId: "",
@@ -73,57 +79,18 @@ class HomePage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.currentUser.hasOwnProperty("house")) {
-      if (this.props.currentUser.house.hasOwnProperty("houseId")) {
-        // TODO
-        // fetch those motherfucking chores
-        // update state
-        // special bypass
-        if (this.props.currentUser.userId === "bstark") {
-          const chores = [
-            {
-              choreId: "1192830",
-              title: "Watch Over The Troublemakers",
-              assignedTo: {
-                userId: "bstark",
-                name: "Brandon Stark"
-              },
-              dueDate: new Date("11/28/2018")
-            },
-            {
-              choreId: "9293846",
-              title: "Clean His Living Quarters",
-              assignedTo: {
-                userId: "307402",
-                name: "Jon Snow"
-              },
-              dueDate: new Date("11/30/2018")
-            },
-            {
-              choreId: "90280",
-              title: "Clean The Faces",
-              assignedTo: {
-                userId: "963480",
-                name: "Arya Stark"
-              },
-              dueDate: new Date("12/03/2018")
-            }
-          ];
-          this.setState({
-            chores: chores
-          });
-        }
-      }
-    }
-  }
-
   setCurrentUser(user) {
     this.props.setCurrentUser(user);
   }
 
   clearCurrentUser() {
     this.props.clearCurrentUser();
+  }
+
+  setChores(chores) {
+    this.setState({
+      chores: chores
+    });
   }
 
   showAddHouseForm = () => {
@@ -223,6 +190,7 @@ class HomePage extends React.Component {
               currentUserID={this.props.currentUser.userId}
               houseId={this.state.houseId}
               houseMembers={houseMembers}
+              setChores={this.setChores}
               completedAddChore={this.completedAddChore}
             />
           </div>

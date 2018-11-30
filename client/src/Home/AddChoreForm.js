@@ -162,8 +162,10 @@ class AddChoreForm extends React.Component {
 
             const chore = {
               choreId: response.data.result.choreId,
+              houseId: houseId,
+              userId: assignedTo.userId,
               assignedTo: assignedTo,
-              title: title,
+              name: title,
               description: description,
               dueDate: selectedDay
             };
