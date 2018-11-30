@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import api from "../api.js";
+import api from "../../api.js";
 
 const styles = theme => ({
   container: {
@@ -20,7 +20,6 @@ const styles = theme => ({
   header: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit,
-    //marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
   textField: {
@@ -65,18 +64,14 @@ class SignUpForm extends React.Component {
 
   handleSignUpSubmit = event => {
     if (!this.state.loading) {
-      // if all of the fields are filled in correctly
-      // do this
+
       this.setState(
         {
           success: false,
           loading: true
         },
         () => {
-          // replace this with axios call
-          // on success, would bubble up current user to app.js
-          /*
-           */
+
           const setCurrentUser = this.props.setCurrentUser;
 
           const name = this.state.name;
@@ -89,12 +84,7 @@ class SignUpForm extends React.Component {
             password: password
           })
           .then(function (response) {
-            /*
-            this.setState({
-              loading: false,
-              success: true
-            });
-            */
+
            const currentUser = response.data.result;
            setCurrentUser(currentUser)
           })

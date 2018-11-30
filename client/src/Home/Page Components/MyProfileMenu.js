@@ -17,7 +17,6 @@ class MyProfileMenu extends React.Component {
   };
 
   handleClick = event => {
-    console.log(event.currentTarget.offsetHeight);
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -26,9 +25,6 @@ class MyProfileMenu extends React.Component {
   };
 
   handleLogOut = () => {
-    //this.setState({ anchorEl: null });
-    // TODO
-    // send this bitch up the pipeline
     this.props.clearCurrentUser();
   };
 

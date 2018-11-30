@@ -9,7 +9,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import api from "../api.js";
+import api from "../../api.js";
 
 const styles = theme => ({
   formContainer: {
@@ -26,7 +26,6 @@ const styles = theme => ({
   header: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit,
-    //marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
   icon: {
@@ -67,7 +66,7 @@ function HomeIcon(props) {
 
 class AddHouseForm extends React.Component {
   state = {
-    houseJoinType: "newHouse", //create new or join existing house
+    houseJoinType: "newHouse", // enum of "newHouse" or "existingHouse"
     houseId: "",
     houseName: "",
     loading: false,

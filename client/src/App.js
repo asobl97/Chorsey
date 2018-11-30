@@ -25,8 +25,6 @@ class App extends React.Component {
   }
 
   setCurrentUser = currentUser => {
-    console.log("we in it");
-    console.log(currentUser);
     this.setState({
       currentUser: currentUser
     });

@@ -12,7 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import api from "../api.js";
+import api from "../../api.js";
 
 const styles = theme => ({
   container: {
@@ -28,7 +28,6 @@ const styles = theme => ({
   header: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit,
-    //marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
   textField: {
@@ -127,16 +126,7 @@ class AddChoreForm extends React.Component {
           loading: true
         },
         () => {
-          // TODO
-          /*
-          var user;
 
-          for (user in this.props.houseMembers) {
-            if (this.state.assignedTo === user.userId) {
-              break;
-            }
-          }
-*/
           const assignedTo = this.state.assignedTo;
           const title = this.state.title;
           const description = this.state.description;

@@ -20,7 +20,6 @@ const styles = theme => ({
 function HouseMemberChips(props) {
   const { classes } = props;
   const houseMembers = props.houseMembers;
-  const houseId = props.houseId;
 
   function handleClick() {
     alert(`Tell housemates to enter your house id when signing up. Your house id is: ${props.houseId}`); 
@@ -33,16 +32,11 @@ function HouseMemberChips(props) {
         icon={<FaceIcon />}
         label={member.name}
         className={classes.chip}
-        //color="primary"
         variant="outlined"
       />
       ))}
       <Chip
-        icon={ <Icon
-          //className={classes.icon}
-          //color="primary"
-          //style={{ fontSize: 44 }}
-        >
+        icon={ <Icon>
           add_circle
         </Icon>}
         clickable

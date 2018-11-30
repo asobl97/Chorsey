@@ -1,7 +1,7 @@
 import React from "react";
-import LandingAppBar from "./LandingAppBar.js";
-import SignUpForm from "./SignUpForm.js";
-import LogInForm from "./LogInForm.js";
+import LandingAppBar from "./Page Components/LandingAppBar.js";
+import SignUpForm from "./Page Components/SignUpForm.js";
+import LogInForm from "./Page Components/LogInForm.js";
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -10,8 +10,7 @@ class LandingPage extends React.Component {
   }
 
   state = {
-    newUser: true,
-    user: {}
+    newUser: true
   };
 
   handleFormToggle() {

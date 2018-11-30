@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import HomeAppBar from "./HomeAppBar.js";
-import ChoreList from "./ChoreList.js";
+import HomeAppBar from "./Page Components/HomeAppBar.js";
+import ChoreList from "./Page Components/ChoreList.js";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
-import AddHouseForm from "./AddHouseForm.js";
-import HouseMemberChips from "./HouseMemberChips.js";
+import AddHouseForm from "./Page Components/AddHouseForm.js";
+import HouseMemberChips from "./Page Components/HouseMemberChips.js";
 
 Object.prototype.hasOwnProperty = function(property) {
   return this[property] !== undefined;
@@ -62,9 +62,8 @@ class HomePage extends React.Component {
     this.setChores = this.setChores.bind(this);
   }
 
-  //content is toggled based on whether the current user has a house or not
   state = {
-    houseId: "",
+    houseId: "",   //content is toggled based on whether the current user has a house or not
     addHouseFormOpened: false,
     chores: []
   };
@@ -88,11 +87,8 @@ class HomePage extends React.Component {
   }
 
   setChores(chores) {
-    // order by date
+    
     chores.sort(function(a,b){
-      // Turn your strings into dates, and then subtract them
-      // to get a value that is either negative, positive, or zero.
-      // https://stackoverflow.com/questions/10123953/sort-javascript-object-array-by-date
       return a.dueDate - b.dueDate;
     });
 
@@ -121,10 +117,8 @@ class HomePage extends React.Component {
 
   completedAddChore = chore => {
     // no need to close form, already done for us by chore list
-
     var chores = this.state.chores;
 
-    // checking if empty
     if (chores == false) {
       chores = [chore];
     } else {
@@ -138,7 +132,7 @@ class HomePage extends React.Component {
     const { classes } = this.props;
 
     if (this.state.houseId === "") {
-      // we say join a house
+      // current user has not joined a house yet
       return (
         <div id="HomePage" className={classes.homePage}>
           <HomeAppBar clearCurrentUser={this.props.clearCurrentUser} />
@@ -174,11 +168,9 @@ class HomePage extends React.Component {
         </div>
       );
     } else {
-      // we show chores list
+      // current user has joined a house, show chores for house
       const chores = this.state.chores;
 
-      // grabbing house members in safe way, checking if they exist
-      // WARNING possible fuck up here, maybe not safe????
       var houseMembers = this.props.currentUser.house.members;
 
       return (

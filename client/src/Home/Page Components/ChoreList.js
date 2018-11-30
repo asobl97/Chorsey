@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -11,7 +11,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Icon from "@material-ui/core/Icon";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from '@material-ui/core/Tooltip';
-import api from "../api.js";
+import api from "../../api.js";
 
 
 const styles = theme => ({
@@ -31,7 +31,7 @@ const styles = theme => ({
   }
 });
 
-function serverFormatDate(date) {
+function formatDateForServer(date) {
 
   var day = date.getDate();
   var month = date.getMonth();
@@ -40,7 +40,7 @@ function serverFormatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
-function formatDate(date) {
+function formatDateToDisplay(date) {
   var monthNames = [
     "January",
     "February",
@@ -85,17 +85,15 @@ class ChoreList extends React.Component {
     const houseId = this.props.houseId;
     const setChores = this.props.setChores;
 
-    //fetch those chores boi!!!!
+    //fetch chores
     api.get(`/chores?houseId=${houseId}&completed=FALSE`)
     .then(function (choresResponse) {
-      console.log('get uncompleted house chores response');
-      console.log(choresResponse);   
       var chores = choresResponse.data.result.map(chore =>{  
-        chore.assignedTo = choresResponse.data.relatables[chore.userId];
+        chore.assignedTo = choresResponse.data.relatables[chore.userId]; // we want full user object, not just user id
         chore.dueDate = new Date(chore.dueDate);
         return chore;
      });
-      setChores(chores);
+      setChores(chores); 
     })
     .catch(function (choresError) {
       console.log('get uncompleted house chores error');
@@ -103,49 +101,32 @@ class ChoreList extends React.Component {
     });
   }
 
-  handleToggle = value => () => { // basically handle mark as completed
+  handleMarkChoreCompleted = completedChoreId => () => { 
     const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
+    const currentIndex = checked.indexOf(completedChoreId);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
-      // push up chore marked as complete
-      // send request to mark chore as complete
-      const chores = this.props.chores;
-      /*
-      var chore;
-      for(chore in chores){
-        console.log(`looping chore: ${chore}`)
-        if(chore.choreId === value){
-          break;
-        }
-      }
-      */
-     const chore = chores.find((chore) => chore.choreId === value)
-      console.log(`marked value: ${value}`)
-      console.log(`marked chore matching value: ${chore}`)
-      console.log('about to mark as complete...');
-      console.log(`due date: ${chore.dueDate}`)
-      console.log(`due date type: ${typeof chore.dueDate}`)
-      console.log(chore);
 
-      api.put(`/chores/${value}`, {
-        userId: chore.userId, // should be the current user's user id
+      newChecked.push(completedChoreId);
+
+      const chores = this.props.chores;
+
+     const chore = chores.find((chore) => chore.choreId === completedChoreId)
+
+      api.put(`/chores/${completedChoreId}`, {
+        userId: chore.userId, 
         houseId: chore.houseId,
         name: chore.name,
         description: chore.description,
-        dueDate: serverFormatDate(chore.dueDate),
+        dueDate: formatDateForServer(chore.dueDate),
         completed: true
-      })
-      .then(function (response) {
-        console.log('mark chore as completed response');
-        console.log(response);
       })
       .catch(function (error) {
         console.log('mark chore as completed error');
         console.log(error);
-      });      
+      });  
+
       this.setState({
         checked: newChecked
       });
@@ -164,19 +145,10 @@ class ChoreList extends React.Component {
     const { classes } = this.props;
 
     const chores = this.props.chores;
-    console.log(chores);
 
     if (chores != false) {
-      //they exist
-      /*
-                  <Typography
-                    component="span"
-                    className={classes.inline}
-                    color="textSecondary"
-                  >
-                    {`Due Date: ${formatDate(value.dueDate)}`}
-                  </Typography>
-                  */
+      //chores exist
+ 
       return (
         <div className={classes.root}>
           <Modal
@@ -205,51 +177,51 @@ class ChoreList extends React.Component {
               </Icon>
               <ListItemText primary={`Add Chore`} />
             </ListItem>
-            {chores.map(value => (
+            {chores.map(chore => (
               <ListItem
-                key={value.choreId}
+                key={chore.choreId}
                 alignItems="flex-start"
                 button
                 divider
-                disabled={this.state.checked.indexOf(value.choreId) !== -1}
+                disabled={this.state.checked.indexOf(chore.choreId) !== -1}
               >
                 <Avatar className={classes.avatar} disabled={
-                        this.state.checked.indexOf(value.choreId) !== -1
+                        this.state.checked.indexOf(chore.choreId) !== -1
                       }
                 >
-                  {value.assignedTo.name.split(" ", 2)[0].charAt(0) + value.assignedTo.name.split(" ", 2)[1].charAt(0).toUpperCase()}
+                  {chore.assignedTo.name.split(" ", 2)[0].charAt(0) + chore.assignedTo.name.split(" ", 2)[1].charAt(0).toUpperCase()}
                 </Avatar>
 
                 <ListItemText
-                  primary={`${value.name}`}
+                  primary={`${chore.name}`}
                   secondary={`Assigned to: ${
-                    value.assignedTo.name
-                  }, due ${formatDate(value.dueDate)}`}
+                    chore.assignedTo.name
+                  }, due ${formatDateToDisplay(chore.dueDate)}`}
                   disabled={
-                    this.state.checked.indexOf(value.choreId) !== -1
+                    this.state.checked.indexOf(chore.choreId) !== -1
                   }
                 />
-                {value.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(value.choreId) === -1 && (
+                {chore.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(chore.choreId) === -1 && (
                   <Tooltip title="Mark Completed" placement="left">
                     <ListItemSecondaryAction>
                     <Checkbox
-                      onChange={this.handleToggle(value.choreId)}
-                      checked={this.state.checked.indexOf(value.choreId) !== -1}
+                      onChange={this.handleMarkChoreCompleted(chore.choreId)}
+                      checked={this.state.checked.indexOf(chore.choreId) !== -1}
                       disabled={
-                        this.state.checked.indexOf(value.choreId) !== -1
+                        this.state.checked.indexOf(chore.choreId) !== -1
                       }
                     />
                     </ListItemSecondaryAction>
                   </Tooltip>
                 )}
-                {value.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(value.choreId) !== -1 &&  (
+                {chore.assignedTo.userId === this.props.currentUserID && this.state.checked.indexOf(chore.choreId) !== -1 &&  (
                   <Tooltip title="Well Done!" placement="left">
                   <ListItemSecondaryAction>
                   <Checkbox
-                    onChange={this.handleToggle(value.choreId)}
-                    checked={this.state.checked.indexOf(value.choreId) !== -1}
+                    onChange={this.handleToggle(chore.choreId)}
+                    checked={this.state.checked.indexOf(chore.choreId) !== -1}
                     disabled={
-                      this.state.checked.indexOf(value.choreId) !== -1
+                      this.state.checked.indexOf(chore.choreId) !== -1
                     }
                   />
                   </ListItemSecondaryAction>
