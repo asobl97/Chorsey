@@ -4,6 +4,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import api from "../api.js";
+
 
 const styles = theme => ({
   container: {
@@ -48,11 +50,6 @@ const styles = theme => ({
 });
 
 class LogInForm extends React.Component {
-  constructor(props) {
-    super(props);
-    //this.handleFormToggle = this.handleFormToggle.bind(this);
-    //this.setCurrentUser = this.setCurrentUser.bind(this);
-  }
 
   state = {
     email: "",
@@ -80,10 +77,9 @@ class LogInForm extends React.Component {
         () => {
           // replace this with axios call
           // on success, would bubble up current user to app.js
-          const name = "Brandon Stark";
           const email = this.state.email;
           const password = this.state.password;
-
+          /*
           var currentUser = {
             userId: "bstark",
             name: name,
@@ -112,14 +108,66 @@ class LogInForm extends React.Component {
               ]
             }
           };
+          */
 
-          this.timer = setTimeout(() => {
-            this.setState({
-              loading: false,
-              success: true
+          const setCurrentUser = this.props.setCurrentUser;
+
+          api.put(`/auth/login`, {
+            email: email,
+            password: password
+          })
+          .then(function (response) {
+            console.log('login user response');
+            console.log(response);
+
+            const userId = response.data.uid;
+            // get user
+            api.get(`/users/${userId}`)
+            .then(function (userResponse) {
+              console.log('get user after login w firebase response');
+              console.log(userResponse);   
+              
+              var currentUser = userResponse.data.result;
+              
+              // if house id, get house
+              if(currentUser.houseId == false){
+                // be done with it
+                setCurrentUser(currentUser);
+              }else{
+                // grab the house
+                api.get(`/houses/${currentUser.houseId}`)
+                .then(function (houseResponse) {
+                  console.log('get house after login response');
+                  console.log(houseResponse);   
+                  
+                  var house = houseResponse.data.result;
+                  const houseId = house.houseId;
+                  // get the members of the house
+                  api.get(`/users?houseId=${houseId}`)
+                  .then(function (membersResponse) {
+                    console.log('get house members response');
+                    console.log(membersResponse);   
+                    house.members = membersResponse.data.result;    
+                    currentUser.house = house;
+                  
+                    setCurrentUser(currentUser);
+                  })
+                  .catch(function (houseError) {
+                    console.log(houseError);
+                  });
+                })
+                .catch(function (userError) {
+                  console.log(userError);
+                });
+              }
+            })
+            .catch(function (userError) {
+              console.log(userError);
             });
-            this.props.setCurrentUser(currentUser);
-          }, 2000);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         }
       );
     }
