@@ -1,12 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App.js';
-import './stylesheets/style.css'
-
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App.js";
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('app')
+	<App />, 
+	document.getElementById('app')
 );
-
-module.hot.accept();
